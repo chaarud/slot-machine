@@ -17,14 +17,14 @@ module Account =
         | BuyIn _ -> true
         | _ -> false
 
-    let isMoney = function
-        | Money _ -> true
-        | _ -> false
-
     let getBuyIn (Account(items)) :int Option = 
         match List.tryFind isBuyIn items with
         | Some (BuyIn(b)) -> Some b
         | _ -> None
+
+    let isMoney = function
+        | Money _ -> true
+        | _ -> false
 
     let getMoney (Account(items)) :int Option = 
         match List.tryFind isMoney items with

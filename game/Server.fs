@@ -9,8 +9,8 @@ let initialize money buyIn =
         printfn "Your account does not have enough money to start a new session"
         emptyAccount
 
-let doLeverPull account =
-    let random = System.Random ()
+let doLeverPull account (random :System.Random) =
+//    let random = System.Random ()
     let r1 = random.Next(1,10)
     let r2 = random.Next(1,10)
     let buyIn = getBuyIn account
@@ -27,7 +27,7 @@ let doLeverPull account =
             | false ->
                 Account [Money(currentMoney-buyIn); BuyIn(buyIn)]
         | _, _ -> 
-            printfn "Your account does not have money or buyin information"
+            printfn "Your account does not have money or buyIn information"
             emptyAccount
     | false -> 
         printfn "Your account does not have enough money to pull the lever"
