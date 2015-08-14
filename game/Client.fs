@@ -7,8 +7,8 @@ let startGame (money :int) (buyIn :int) =
     let acct = server.Initialize money buyIn
     acct, server
 
-let pullLever rng (server:Server.Server) account :Account = 
-    server.DoLeverPull account rng
+let doTransaction rng (server:Server.Server) account trx :Account = 
+    server.Transaction account rng trx
 
 let gameOver () = 
     printfn "Player has decided to stop playing"
@@ -20,15 +20,15 @@ let rec gameLoop (i :int) (rng : System.Random) (server : Server.Server) (accoun
     | true -> gameOver ()
     | false -> 
         match leverPullable account with
-        | true -> 
-            pullLever rng server account
-            |> gameLoop (i+1) rng server
-        | _ -> gameOver ()
+        | true -> PullLever
+        | false -> BuyMoney
+        |> doTransaction rng server account
+        |> gameLoop (i+1) rng server
 
 [<EntryPoint>]
 let main argv = 
     let initialAccount, server = startGame 10000 10
-    let rng = new System.Random 4
+    let rng = new System.Random ()
     let finalAccount = gameLoop 0 rng server initialAccount
     0 // return an integer exit code
 

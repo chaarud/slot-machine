@@ -10,12 +10,17 @@ type Server () =
 
     member self.Initialize money buyIn = 
         match money > buyIn with
-        | true -> Account [Money(money); BuyIn(buyIn)]
+        | true -> { money = Some money; buyIn = Some buyIn}
         | false -> 
             printfn "Your account does not have enough money to start a new session"
             emptyAccount
 
-    member self.DoLeverPull account (random :System.Random) =
+    member self.Transaction account random transaction =
+        match transaction with
+        | PullLever -> self.DoPullLever account random
+        | BuyMoney -> self.DoBuyMoney account random
+            
+    member self.DoPullLever account (random :System.Random) =
         let r1 = random.Next(1,10)
         let r2 = random.Next(1,10)
         let buyIn = getBuyIn account
@@ -29,9 +34,9 @@ type Server () =
                 match r1 = r2 with
                 | true -> 
                     printfn "You won"
-                    Account [Money(payout+currentMoney); BuyIn(buyIn)]
+                    { money = Some <| payout+currentMoney; buyIn = Some buyIn}
                 | false ->
-                    Account [Money(currentMoney-buyIn); BuyIn(buyIn)]
+                    { money = Some <| currentMoney-buyIn; buyIn = Some buyIn}
             | _, _ -> 
                 printfn "Your account does not have money or buyIn information"
                 emptyAccount
@@ -39,3 +44,5 @@ type Server () =
             printfn "Your account does not have enough money to pull the lever"
             emptyAccount
 
+    member self.DoBuyMoney account random =
+        emptyAccount
