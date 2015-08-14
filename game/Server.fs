@@ -5,8 +5,10 @@ open Accounts.Account
 type Server () = 
 
     let serverEvent = new Event<Account> ()
+    let invalidFieldEvent = new Event<unit> ()
 
-    member self.Events () = serverEvent.Publish
+    member self.ServerEvents () = serverEvent.Publish
+    member self.InvalidFieldEvents () = invalidFieldEvent.Publish
 
     member self.Initialize money buyIn = 
         match money > buyIn with
@@ -39,10 +41,19 @@ type Server () =
                     { money = Some <| currentMoney-buyIn; buyIn = Some buyIn}
             | _, _ -> 
                 printfn "Your account does not have money or buyIn information"
+                invalidFieldEvent.Trigger ()
                 emptyAccount
         | false -> 
             printfn "Your account does not have enough money to pull the lever"
             emptyAccount
 
     member self.DoBuyMoney account random =
-        emptyAccount
+        let buyIn = getBuyIn account
+        let currentMoney = getMoney account
+        match buyIn, currentMoney with
+        | Some buyIn, Some currentMoney ->
+            { money = Some <| currentMoney + 1000; buyIn = Some buyIn}
+        | _, _ ->
+            printfn "Your account does not have money or buyIn information"
+            invalidFieldEvent.Trigger ()
+            emptyAccount

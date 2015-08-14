@@ -29,6 +29,10 @@ let rec gameLoop i rng server account =
 let main argv = 
     let initialAccount, server = startGame 10000 10
     let rng = new System.Random ()
+
+    let playerId = rng.Next (1, 100000000)
+    let playerDevice = "iPhone"
+
     let finalAccount = gameLoop 0 rng server initialAccount
     0 // return an integer exit code
 
