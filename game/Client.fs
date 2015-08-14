@@ -2,19 +2,19 @@
 
 open Accounts.Account
 
-let startGame (money :int) (buyIn :int) = 
+let startGame money buyIn = 
     let server = new Server.Server ()
     let acct = server.Initialize money buyIn
     acct, server
 
-let doTransaction rng (server:Server.Server) account trx :Account = 
+let doTransaction rng (server : Server.Server) account trx = 
     server.Transaction account rng trx
 
 let gameOver () = 
     printfn "Player has decided to stop playing"
     emptyAccount
 
-let rec gameLoop (i :int) (rng : System.Random) (server : Server.Server) (account :Account) :Account =
+let rec gameLoop i rng server account =
     printfn "gameLoop iteration %A and %A" i account
     match i >= 300 with
     | true -> gameOver ()

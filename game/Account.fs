@@ -14,11 +14,15 @@ module Account =
         | PullLever
         | BuyMoney
 
-    let getBuyIn (account:Account) :int Option = 
+    let getBuyIn account = 
         account.buyIn
 
-    let getMoney (account:Account) :int Option = 
+    let getMoney account = 
         account.money
 
     let leverPullable account = 
-        getMoney account > getBuyIn account
+        match getMoney account, getBuyIn account with
+        | Some m, Some b ->
+            m > b
+        | _, _ -> 
+            false
