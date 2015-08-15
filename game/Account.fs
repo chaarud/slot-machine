@@ -22,7 +22,7 @@ module Account =
 
     let leverPullable account = 
         match getMoney account, getBuyIn account with
-        | Some m, Some b ->
-            m > b
+        | Some money, Some buyIn ->
+            money > buyIn
         | _, _ -> 
             false

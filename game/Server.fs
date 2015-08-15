@@ -52,6 +52,7 @@ type Server () =
         let currentMoney = getMoney account
         match buyIn, currentMoney with
         | Some buyIn, Some currentMoney ->
+            printfn "Bought money"
             { money = Some <| currentMoney + 1000; buyIn = Some buyIn}
         | _, _ ->
             printfn "Your account does not have money or buyIn information"

@@ -7,6 +7,8 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>game</RootNamespace>
     <AssemblyName>game</AssemblyName>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,4 +44,10 @@
     <Compile Include="Client.fs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.1\Framework\v4.0\Microsoft.FSharp.Targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Analytics.Xamarin\Analytics\Analytics.csproj">
+      <Project>{94A1E56C-5F8D-48DE-8473-DB47C6D2D5CF}</Project>
+      <Name>Analytics</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

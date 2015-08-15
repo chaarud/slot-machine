@@ -3,3 +3,13 @@
 /Users/chaaru/Projects/game/game/obj/x86/Debug/game.exe.mdb
 /Users/chaaru/Projects/game/game/bin/Debug/game.exe.mdb
 /Users/chaaru/Projects/game/game/bin/Debug/game.exe
+/Users/chaaru/Projects/game/game/bin/Debug/Tests.dll
+/Users/chaaru/Projects/game/game/bin/Debug/Tests.dll.mdb
+/Users/chaaru/Projects/game/game/bin/Debug/Analytics.dll
+/Users/chaaru/Projects/game/game/bin/Debug/Analytics.dll.mdb
+/Users/chaaru/Projects/game/game/bin/Debug/System.Net.Http.dll
+/Users/chaaru/Projects/game/game/bin/Debug/Newtonsoft.Json.dll
+/Users/chaaru/Projects/game/game/bin/Debug/System.Net.Http.Primitives.dll
+/Users/chaaru/Projects/game/game/bin/Debug/System.Threading.Tasks.dll
+/Users/chaaru/Projects/game/game/bin/Debug/System.IO.dll
+/Users/chaaru/Projects/game/game/bin/Debug/System.Runtime.dll
