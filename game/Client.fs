@@ -55,5 +55,8 @@ let main argv =
         |> Async.RunSynchronously //Async.Start
 
     let finalAccount = client.GameLoop 0 rng server initialAccount
+
+    let s = System.Console.ReadLine ()
+
     0 // return an integer exit code
 
