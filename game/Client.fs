@@ -2,10 +2,13 @@
 
 open Accounts.Account
 open FSharp.Data
+open FSharp.Configuration
+
+type Settings = AppSettings<"app.config">
 
 let sendRequest id event = 
     let url = "https://api.amplitude.com/httpapi"
-    let api_key = "9d7c111da3e4eaa3e6c2a36f90283424"
+    let api_key = Settings.ApiKey
     let event = "[{\"user_id\":\"" + id + "\",\"event_type\":\"" + event + "\"}]"
     let requestBody = FormValues[("api_key", api_key); ("event", event)]
     Http.RequestString(url, body = requestBody)

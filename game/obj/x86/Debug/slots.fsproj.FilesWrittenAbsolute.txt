@@ -6,3 +6,6 @@
 /Users/chaaru/Projects/game/game/bin/Debug/FSharp.Data.dll
 /Users/chaaru/Projects/game/game/bin/Debug/FSharp.Data.dll.mdb
 /Users/chaaru/Projects/game/game/bin/Debug/FSharp.Data.xml
+/Users/chaaru/Projects/game/game/bin/Debug/FSharp.Configuration.dll
+/Users/chaaru/Projects/game/game/bin/Debug/SharpYaml.dll
+/Users/chaaru/Projects/game/game/bin/Debug/game.exe.config
