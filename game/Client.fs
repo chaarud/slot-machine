@@ -6,12 +6,15 @@ open FSharp.Configuration
 
 type Settings = AppSettings<"app.config">
 
-let sendRequest id event = 
+let sendRequest id event = async {
     let url = "https://api.amplitude.com/httpapi"
     let api_key = Settings.ApiKey
     let event = "[{\"user_id\":\"" + id + "\",\"event_type\":\"" + event + "\"}]"
     let requestBody = FormValues[("api_key", api_key); ("event", event)]
-    Http.RequestString(url, body = requestBody)
+    let status = Http.RequestString(url, body = requestBody) 
+    printfn "Async HTTP request status: %A" status
+    ignore status
+    }
 
 let startGame money buyIn = 
     let server = new Server.Server ()
@@ -45,9 +48,10 @@ let main argv =
     let id = idNum.ToString ()
     let playerDevice = "iPhone"
 
-    let x = sendRequest id "Game Started"
-    printfn "%A" x
+    let result = 
+        sendRequest id "Game Started"
+        |> Async.RunSynchronously //Async.Start
 
-//    let finalAccount = gameLoop 0 rng server initialAccount
+    let finalAccount = gameLoop 0 rng server initialAccount
     0 // return an integer exit code
 
