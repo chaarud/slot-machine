@@ -7,10 +7,15 @@ open FSharp.Configuration
 type Settings = AppSettings<"app.config">
 
 let sendRequest id event = async {
+    printfn "1"
     let url = "https://api.amplitude.com/httpapi"
+    printfn "1"
     let api_key = Settings.ApiKey
+    printfn "1"
     let event = "[{\"user_id\":\"" + id + "\",\"event_type\":\"" + event + "\"}]"
+    printfn "1"
     let requestBody = FormValues[("api_key", api_key); ("event", event)]
+    printfn "about to send HTTP request"
     let status = Http.RequestString(url, body = requestBody) 
     printfn "Async HTTP request status: %A" status
     ignore status
@@ -29,8 +34,8 @@ let gameOver () =
     emptyAccount
 
 let rec gameLoop i rng server account =
-    printfn "gameLoop iteration %A and %A" i account
-    match i >= 300 with
+//    printfn "gameLoop iteration %A and %A" i account
+    match i >= 30000 with
     | true -> gameOver ()
     | false -> 
         match leverPullable account with
@@ -46,11 +51,10 @@ let main argv =
 
     let idNum = rng.Next (1, 100000000) 
     let id = idNum.ToString ()
-    let playerDevice = "iPhone"
 
     let result = 
         sendRequest id "Game Started"
-        |> Async.RunSynchronously //Async.Start
+        |> Async.Start //Async.Start
 
     let finalAccount = gameLoop 0 rng server initialAccount
     0 // return an integer exit code

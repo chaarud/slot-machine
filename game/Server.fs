@@ -25,8 +25,8 @@ type Server () =
     member self.DoPullLever account (random :System.Random) =
         let r1 = random.Next(1,10)
         let r2 = random.Next(1,10)
-        let buyIn = getBuyIn account
-        let currentMoney = getMoney account
+        let buyIn = buyIn account
+        let currentMoney = money account
         match leverPullable account with
         | true ->
             match buyIn, currentMoney with
@@ -35,7 +35,7 @@ type Server () =
                 serverEvent.Trigger (account)
                 match r1 = r2 with
                 | true -> 
-                    printfn "You won"
+//                    printfn "You won"
                     { money = Some <| payout+currentMoney; buyIn = Some buyIn}
                 | false ->
                     { money = Some <| currentMoney-buyIn; buyIn = Some buyIn}
@@ -48,8 +48,8 @@ type Server () =
             emptyAccount
 
     member self.DoBuyMoney account random =
-        let buyIn = getBuyIn account
-        let currentMoney = getMoney account
+        let buyIn = buyIn account
+        let currentMoney = money account
         match buyIn, currentMoney with
         | Some buyIn, Some currentMoney ->
             { money = Some <| currentMoney + 1000; buyIn = Some buyIn}
