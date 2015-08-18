@@ -2,3 +2,4 @@
 
 nuget FSharp.Data
 nuget FSharp.Configuration
+nuget Nessos.FsPickler

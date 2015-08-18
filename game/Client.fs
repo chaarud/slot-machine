@@ -1,19 +1,8 @@
 ﻿module Client
 
 open Accounts.Account
-open FSharp.Data
-open FSharp.Configuration
-
-type Settings = AppSettings<"app.config">
-
-let sendRequest id event = 
-    let url = "https://api.amplitude.com/httpapi"
-    let api_key = Settings.ApiKey
-    let event = "[{\"user_id\":\"" + id + "\",\"event_type\":\"" + event + "\"}]"
-    let requestBody = FormValues[("api_key", api_key); ("event", event)]
-    Http.AsyncRequestString(url, body = requestBody) 
-    //|> Async.RunSynchronously |> printfn "Request status: %A"
-    |> Async.Ignore |> Async.Start
+open Nessos.FsPickler
+open Listener
 
 type Client (server : Server.Server, id) = 
 
@@ -27,7 +16,7 @@ type Client (server : Server.Server, id) =
 
     member self.GameLoop i account =
         // printfn "gameLoop iteration %A and %A" i account
-        // Async.RunSynchronously <| Async.Sleep 50
+        Async.RunSynchronously <| Async.Sleep 50
         match i >= 300 with
         | true -> self.GameOver ()
         | false -> 
@@ -47,24 +36,5 @@ type Client (server : Server.Server, id) =
         printfn "Player has decided to stop playing"
         emptyAccount
 
-[<EntryPoint>]
-let main argv = 
-    let idAssigner = new System.Random ()
-    let server = new Server.Server ()
 
-    let generator i = async {
-        let idNum = idAssigner.Next (1,1000000)
-        let id = idNum.ToString ()
-        let client = new Client (server, id)
-        ignore <| client.Run 1000 10
-        }
-
-    let parallelClients = 
-        List.init 3 generator
-        |> Async.Parallel
-        |> Async.RunSynchronously
-
-    let s = System.Console.ReadLine ()
-
-    0 // return an integer exit code
 
