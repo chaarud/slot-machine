@@ -46,6 +46,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="paket.dependencies">
+    </None>
     <None Include="app.config" />
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Account.fs" />
