@@ -35,7 +35,7 @@ type Server () =
                 serverEvent.Trigger (account)
                 match r1 = r2 with
                 | true -> 
-//                    printfn "You won"
+                    // printfn "You won"
                     { money = Some <| payout+currentMoney; buyIn = Some buyIn}
                 | false ->
                     { money = Some <| currentMoney-buyIn; buyIn = Some buyIn}
