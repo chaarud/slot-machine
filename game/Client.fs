@@ -16,9 +16,17 @@ let sendRequest id event = async {
     ignore status
     }
 
-type Client () = 
+type Client (server : Server.Server, id) = 
 
-    member self.GameLoop i rng server account =
+    member self.Run initialFunds buyIn =
+        let result = 
+            sendRequest id "Game Started"
+            |> Async.RunSynchronously //Async.Start
+
+        self.StartGame initialFunds buyIn
+        |> self.GameLoop 0
+
+    member self.GameLoop i account =
         // printfn "gameLoop iteration %A and %A" i account
         ignore <| Async.Sleep 500
         match i >= 300 with
@@ -27,34 +35,28 @@ type Client () =
             match leverPullable account with
             | true -> PullLever
             | false -> BuyMoney
-            |> self.DoTransaction rng server account
-            |> self.GameLoop (i+1) rng server
+            |> self.DoTransaction account
+            |> self.GameLoop (i+1)
 
-    member self.StartGame (server : Server.Server) money buyIn = 
+    member self.StartGame money buyIn = 
         server.Initialize money buyIn
 
-    member self.DoTransaction rng (server : Server.Server) account trx = 
-        server.Transaction account rng trx
+    member self.DoTransaction (account : Account) trx = 
+        server.Transaction account trx
 
     member self.GameOver () = 
         printfn "Player has decided to stop playing"
         emptyAccount
 
-
 [<EntryPoint>]
 let main argv = 
+    let idAssigner = new System.Random ()
     let server = new Server.Server ()
-    let client = new Client ()
-    let initialAccount = client.StartGame server 10000 10
-    let rng = new System.Random ()
 
-    let idNum = rng.Next (1, 100000000) 
+    let idNum = idAssigner.Next (1,1000000)
     let id = idNum.ToString ()
-    let result = 
-        sendRequest id "Game Started"
-        |> Async.RunSynchronously //Async.Start
-
-    let finalAccount = client.GameLoop 0 rng server initialAccount
+    let client = new Client (server, id)
+    let finalAccount = client.Run 1000 10
 
     let s = System.Console.ReadLine ()
 

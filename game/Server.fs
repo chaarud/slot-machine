@@ -10,6 +10,8 @@ type Server () =
     member self.ServerEvents () = serverEvent.Publish
     member self.InvalidFieldEvents () = invalidFieldEvent.Publish
 
+    member self.random = new System.Random ()
+
     member self.Initialize money buyIn = 
         match money > buyIn with
         | true -> { money = Some money; buyIn = Some buyIn}
@@ -17,14 +19,14 @@ type Server () =
             printfn "Your account does not have enough money to start a new session"
             emptyAccount
 
-    member self.Transaction account random transaction =
+    member self.Transaction account transaction =
         match transaction with
-        | PullLever -> self.DoPullLever account random
-        | BuyMoney -> self.DoBuyMoney account random
+        | PullLever -> self.DoPullLever account
+        | BuyMoney -> self.DoBuyMoney account
             
-    member self.DoPullLever account (random :System.Random) =
-        let r1 = random.Next(1,10)
-        let r2 = random.Next(1,10)
+    member self.DoPullLever account =
+        let r1 = self.random.Next(1,10)
+        let r2 = self.random.Next(1,10)
         let buyIn = buyIn account
         let currentMoney = money account
         match leverPullable account with
@@ -47,7 +49,7 @@ type Server () =
             printfn "Your account does not have enough money to pull the lever"
             emptyAccount
 
-    member self.DoBuyMoney account random =
+    member self.DoBuyMoney account =
         let buyIn = buyIn account
         let currentMoney = money account
         match buyIn, currentMoney with
