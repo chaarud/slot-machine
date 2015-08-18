@@ -18,13 +18,12 @@ let sendRequest id event = async {
 
 type Client (server : Server.Server, id) = 
 
+    member self.SendRequest event = 
+        sendRequest id event
+        |> Async.Start
+
     member self.Run initialFunds buyIn =
-        printfn "Running"
-
-        let result = 
-            sendRequest id "Game Started"
-            |> Async.Start //Start vs RunSynchronously
-
+        self.SendRequest "Game Started"
         self.StartGame initialFunds buyIn
         |> self.GameLoop 0
 
