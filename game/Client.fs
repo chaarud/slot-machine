@@ -29,7 +29,7 @@ type Client (server : Server.Server, id) =
 
     member self.GameLoop i account =
         // printfn "gameLoop iteration %A and %A" i account
-        ignore <| Async.Sleep 500
+        Async.RunSynchronously <| Async.Sleep 500
         match i >= 300 with
         | true -> self.GameOver ()
         | false -> 
