@@ -19,9 +19,11 @@ let sendRequest id event = async {
 type Client (server : Server.Server, id) = 
 
     member self.Run initialFunds buyIn =
+        printfn "Running"
+
         let result = 
             sendRequest id "Game Started"
-            |> Async.RunSynchronously //Async.Start
+            |> Async.Start //Start vs RunSynchronously
 
         self.StartGame initialFunds buyIn
         |> self.GameLoop 0
@@ -53,10 +55,17 @@ let main argv =
     let idAssigner = new System.Random ()
     let server = new Server.Server ()
 
-    let idNum = idAssigner.Next (1,1000000)
-    let id = idNum.ToString ()
-    let client = new Client (server, id)
-    let finalAccount = client.Run 1000 10
+    let generator i = async {
+        let idNum = idAssigner.Next (1,1000000)
+        let id = idNum.ToString ()
+        let client = new Client (server, id)
+        ignore <| client.Run 1000 10
+        }
+
+    let parallelClients = 
+        List.init 3 generator
+        |> Async.Parallel
+        |> Async.RunSynchronously
 
     let s = System.Console.ReadLine ()
 
