@@ -6,21 +6,19 @@ open FSharp.Configuration
 
 type Settings = AppSettings<"app.config">
 
-let sendRequest id event = async {
+let sendRequest id event = 
     let url = "https://api.amplitude.com/httpapi"
     let api_key = Settings.ApiKey
     let event = "[{\"user_id\":\"" + id + "\",\"event_type\":\"" + event + "\"}]"
     let requestBody = FormValues[("api_key", api_key); ("event", event)]
-    let status = Http.RequestString(url, body = requestBody) 
-    printfn "Async HTTP request status: %A" status
-    ignore status
-    }
+    Http.AsyncRequestString(url, body = requestBody) 
+    //|> Async.RunSynchronously |> printfn "Request status: %A"
+    |> Async.Ignore |> Async.Start
 
 type Client (server : Server.Server, id) = 
 
     member self.SendRequest event = 
         sendRequest id event
-        |> Async.Start
 
     member self.Run initialFunds buyIn =
         self.SendRequest "Game Started"
@@ -29,7 +27,7 @@ type Client (server : Server.Server, id) =
 
     member self.GameLoop i account =
         // printfn "gameLoop iteration %A and %A" i account
-        Async.RunSynchronously <| Async.Sleep 500
+        // Async.RunSynchronously <| Async.Sleep 50
         match i >= 300 with
         | true -> self.GameOver ()
         | false -> 
