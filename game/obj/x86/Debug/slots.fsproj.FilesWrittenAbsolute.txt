@@ -3,3 +3,6 @@
 /Users/chaaru/Projects/game/game/obj/x86/Debug/game.exe.mdb
 /Users/chaaru/Projects/game/game/bin/Debug/game.exe.mdb
 /Users/chaaru/Projects/game/game/bin/Debug/game.exe
+/Users/chaaru/Projects/game/game/bin/Debug/FSharp.Data.dll
+/Users/chaaru/Projects/game/game/bin/Debug/FSharp.Data.dll.mdb
+/Users/chaaru/Projects/game/game/bin/Debug/FSharp.Data.xml

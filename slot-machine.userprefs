@@ -2,9 +2,7 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="game/Client.fs">
     <Files>
-      <File FileName="game/Client.fs" Line="12" Column="5" />
-      <File FileName="game/Account.fs" Line="21" Column="16" NotebookId="1" />
-      <File FileName="game/Server.fs" Line="13" Column="24" NotebookId="1" />
+      <File FileName="game/Client.fs" Line="19" Column="54" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
