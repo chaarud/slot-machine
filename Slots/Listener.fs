@@ -12,15 +12,14 @@ type Settings = AppSettings<"app.config">
 type AmplitudeService () =
     inherit WebSocketBehavior ()
 
+    let pickler = FsPickler.CreateBinary ()
+
     override self.OnMessage (e:MessageEventArgs) = 
-        printfn "heard the message"
         let id, event = self.UnPickle e.RawData
         self.SendRequest id event
-
-    override self.OnOpen () = 
-        printfn "umm...websocketbehavior opening"
-
+        
     member self.SendRequest id event = 
+        printfn "sending to amplitude"
         let url = "https://api.amplitude.com/httpapi"
         let api_key = Settings.ApiKey
         let event = "[{\"user_id\":\"" + id + "\",\"event_type\":\"" + event + "\"}]"
@@ -30,19 +29,9 @@ type AmplitudeService () =
         |> Async.Ignore |> Async.Start
 
     member self.UnPickle pickle = 
-        let pickler = FsPickler.CreateBinary ()
-        let id, event = pickler.UnPickle<string*string> pickle
-        id, event
+        pickler.UnPickle<string*string> pickle
 
-//let recieve pickle =
-//    let id, event = unPickle pickle
-//    sendRequest id event
-
-//let wsServer = new WebSocketServer(55555)
-let startListener () = 
+let startListening () = 
     let wsServer = new WebSocketServer("ws://localhost:55555")
     wsServer.AddWebSocketService<AmplitudeService>("/AmplitudeService")
     wsServer.Start ()
-    printfn "%A" wsServer.Port
-    printfn "%A" wsServer.Address
-    printfn "websocket server started"

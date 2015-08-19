@@ -6,21 +6,19 @@ open WebSocketSharp
 open Listener
 open Metrics
 
-type Client (server : Server.Server, id) = 
+type Client (server : Server.Server, id:string) = 
 
     let pickler = FsPickler.CreateBinary ()
     let ws = new WebSocket("ws://localhost:55555/AmplitudeService")
-    //set ws.OnMessage? (only to deal with recieved messages)
     do 
         ws.OnOpen.Add (fun _ -> printfn "WebSocket opened")
+        ws.OnClose.Add (fun _ -> printfn "WebSocket closed")
         ws.Connect ()
-    member self.SendRequest event = 
-        let pickle = pickler.Pickle ((id,event))
-        printfn "url to send to: %A" ws.Url
-        printfn "sending pickle"
-        ws.Send(pickle) //SendAsync?
-        printfn "sent pickle"
-        //Listener.sendRequest id event
+
+    member self.SendRequest (event:string) = 
+        let tuple = id,event
+        let pickle = pickler.Pickle (tuple)
+        ws.Send pickle //SendAsync vs Send
 
     member self.Run initialFunds buyIn =
         self.SendRequest "Game Started"
@@ -29,7 +27,7 @@ type Client (server : Server.Server, id) =
 
     member self.GameLoop i account =
         //printfn "gameLoop iteration %A and %A" i account
-        //Async.RunSynchronously <| Async.Sleep 50
+        Async.RunSynchronously <| Async.Sleep 50
         match i >= 300 with
         | true -> self.GameOver ()
         | false -> 
