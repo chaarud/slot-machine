@@ -2,6 +2,6 @@
 
 module Events =
 
-    type Event = 
+    type Metric = 
         | GameStarted
         | GameEnded

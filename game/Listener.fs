@@ -5,6 +5,8 @@ open FSharp.Configuration
 open Nessos.FsPickler
 open Events.Events
 
+open WebSocketSharp
+
 type Settings = AppSettings<"app.config">
 
 let sendRequest id event = 
