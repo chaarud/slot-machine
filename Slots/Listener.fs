@@ -3,7 +3,7 @@
 open FSharp.Data
 open FSharp.Configuration
 open Nessos.FsPickler
-open Events.Events
+open Metrics
 
 open WebSocketSharp
 
@@ -18,11 +18,11 @@ let sendRequest id event =
     //|> Async.RunSynchronously |> printfn "Request status: %A"
     |> Async.Ignore |> Async.Start
 
-let unPickle pickle = 
-    let pickler = FsPickler.CreateBinarySerializer ()
-    let id, event = pickler.UnPickle<string*string> pickle
-    id, event
+//let unPickle pickle = 
+//    let pickler = FsPickler.CreateBinarySerializer ()
+//    let id, event = pickler.UnPickle<string*string> pickle
+//    id, event
 
-let recieve pickle =
-    let id, event = unPickle pickle
-    sendRequest id event
+//let recieve pickle =
+//    let id, event = unPickle pickle
+//    sendRequest id event

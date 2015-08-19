@@ -3,11 +3,11 @@
 open Accounts.Account
 open Nessos.FsPickler
 open Listener
-open Events.Events
+open Metrics
 
 type Client (server : Server.Server, id) = 
 
-    let pickler = FsPickler.CreateBinarySerializer ()
+//    let pickler = FsPickler.CreateBinarySerializer ()
 
     member self.SendRequest event = 
 //        let pickle = pickler.Pickle id*event
