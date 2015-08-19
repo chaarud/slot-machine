@@ -2,16 +2,23 @@
 
 open Accounts.Account
 open Nessos.FsPickler
+open WebSocketSharp
 open Listener
 open Metrics
 
 type Client (server : Server.Server, id) = 
 
-//    let pickler = FsPickler.CreateBinarySerializer ()
+    let pickler = FsPickler.CreateBinary ()
+    let ws = new WebSocket("ws://localhost:55555/AmplitudeService")
+    //set ws.OnMessage? (only to deal with recieved messages)
 
     member self.SendRequest event = 
-//        let pickle = pickler.Pickle id*event
-        Listener.sendRequest id event
+        let pickle = pickler.Pickle ((id,event))
+        printfn "url to send to: %A" ws.Url
+        printfn "sending pickle"
+        ws.Send(pickle) //SendAsync?
+        printfn "sent pickle"
+        //Listener.sendRequest id event
 
     member self.Run initialFunds buyIn =
         self.SendRequest "Game Started"
@@ -19,8 +26,8 @@ type Client (server : Server.Server, id) =
         |> self.GameLoop 0
 
     member self.GameLoop i account =
-        // printfn "gameLoop iteration %A and %A" i account
-        Async.RunSynchronously <| Async.Sleep 50
+        //printfn "gameLoop iteration %A and %A" i account
+        //Async.RunSynchronously <| Async.Sleep 50
         match i >= 300 with
         | true -> self.GameOver ()
         | false -> 
@@ -37,8 +44,7 @@ type Client (server : Server.Server, id) =
         server.Transaction account trx
 
     member self.GameOver () = 
+        ws.Close ()
         printfn "Player has decided to stop playing"
         emptyAccount
-
-
 
