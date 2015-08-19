@@ -10,8 +10,7 @@ let main argv =
     Listener.startListening ()
 
     let generator i = async {
-        let idNum = idAssigner.Next (1,1000000)
-        let id = idNum.ToString ()
+        let id = idAssigner.Next (1,1000000)
         let client = new Client (server, id)
         ignore <| client.Run 1000 10
         }

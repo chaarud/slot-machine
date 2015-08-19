@@ -16,7 +16,10 @@ type AmplitudeService () =
 
     override self.OnMessage (e:MessageEventArgs) = 
         let id, event = self.UnPickle e.RawData
-        self.SendRequest id event
+        match event with
+        | GameStarted -> "Game Started"
+        | GameEnded -> "Game Ended"
+        |> self.SendRequest (id.ToString())
         
     member self.SendRequest id event = 
         printfn "sending to amplitude"
@@ -29,7 +32,7 @@ type AmplitudeService () =
         |> Async.Ignore |> Async.Start
 
     member self.UnPickle pickle = 
-        pickler.UnPickle<string*string> pickle
+        pickler.UnPickle<int*Metric> pickle
 
 let startListening () = 
     let wsServer = new WebSocketServer("ws://localhost:55555")

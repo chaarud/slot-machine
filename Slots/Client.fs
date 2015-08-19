@@ -6,7 +6,7 @@ open WebSocketSharp
 open Listener
 open Metrics
 
-type Client (server : Server.Server, id:string) = 
+type Client (server : Server.Server, id : int) = 
 
     let pickler = FsPickler.CreateBinary ()
     let ws = new WebSocket("ws://localhost:55555/AmplitudeService")
@@ -15,13 +15,13 @@ type Client (server : Server.Server, id:string) =
         ws.OnClose.Add (fun _ -> printfn "WebSocket closed")
         ws.Connect ()
 
-    member self.SendRequest (event:string) = 
+    member self.SendRequest (event : Metric) = 
         let tuple = id,event
         let pickle = pickler.Pickle (tuple)
         ws.Send pickle //SendAsync vs Send
 
     member self.Run initialFunds buyIn =
-        self.SendRequest "Game Started"
+        self.SendRequest GameStarted
         self.StartGame initialFunds buyIn
         |> self.GameLoop 0
 
@@ -44,7 +44,8 @@ type Client (server : Server.Server, id:string) =
         server.Transaction account trx
 
     member self.GameOver () = 
-        ws.Close ()
+        self.SendRequest GameEnded
         printfn "Player has decided to stop playing"
+        ws.Close ()
         emptyAccount
 
