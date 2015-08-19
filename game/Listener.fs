@@ -2,6 +2,8 @@
 
 open FSharp.Data
 open FSharp.Configuration
+open Nessos.FsPickler
+open Events.Events
 
 type Settings = AppSettings<"app.config">
 
@@ -13,3 +15,12 @@ let sendRequest id event =
     Http.AsyncRequestString(url, body = requestBody) 
     //|> Async.RunSynchronously |> printfn "Request status: %A"
     |> Async.Ignore |> Async.Start
+
+let unPickle pickle = 
+    let pickler = FsPickler.CreateBinarySerializer ()
+    let id, event = pickler.UnPickle<string*string> pickle
+    id, event
+
+let recieve pickle =
+    let id, event = unPickle pickle
+    sendRequest id event

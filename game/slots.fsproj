@@ -55,6 +55,7 @@
     </None>
     <None Include="app.config" />
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Events.fs" />
     <Compile Include="Account.fs" />
     <Compile Include="Server.fs" />
     <Compile Include="Listener.fs" />

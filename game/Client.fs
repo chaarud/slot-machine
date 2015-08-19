@@ -3,11 +3,15 @@
 open Accounts.Account
 open Nessos.FsPickler
 open Listener
+open Events.Events
 
 type Client (server : Server.Server, id) = 
 
+    let pickler = FsPickler.CreateBinarySerializer ()
+
     member self.SendRequest event = 
-        sendRequest id event
+//        let pickle = pickler.Pickle id*event
+        Listener.sendRequest id event
 
     member self.Run initialFunds buyIn =
         self.SendRequest "Game Started"
