@@ -4,7 +4,6 @@ open FSharp.Data
 open FSharp.Configuration
 open Nessos.FsPickler
 open Metrics
-
 open WebSocketSharp
 
 type Settings = AppSettings<"app.config">
