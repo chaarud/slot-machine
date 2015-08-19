@@ -11,7 +11,9 @@ type Client (server : Server.Server, id) =
     let pickler = FsPickler.CreateBinary ()
     let ws = new WebSocket("ws://localhost:55555/AmplitudeService")
     //set ws.OnMessage? (only to deal with recieved messages)
-
+    do 
+        ws.OnOpen.Add (fun _ -> printfn "WebSocket opened")
+        ws.Connect ()
     member self.SendRequest event = 
         let pickle = pickler.Pickle ((id,event))
         printfn "url to send to: %A" ws.Url
