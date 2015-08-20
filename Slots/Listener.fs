@@ -19,12 +19,12 @@ type AmplitudeService () =
     override self.OnMessage (e:MessageEventArgs) = 
         let id, event = self.UnPickle e.RawData
         match event with
-        | GameStarted -> "Game Started"
+        | GameStarted _ -> "Game Started"
         | GameEnded -> "Game Ended"
         | BuyMoneyMetric _ -> "Bought virtual currency"
         | PullLeverMetric _ -> "Pulled Lever"
         |> self.SendRequest (id.ToString())
-        
+
     member self.SendRequest id event = 
         printfn "sending to amplitude"
         let url = "https://api.amplitude.com/httpapi"

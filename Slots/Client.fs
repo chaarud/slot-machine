@@ -10,6 +10,8 @@ type Client (server : Server.Server, id : int) =
 
     let pickler = FsPickler.CreateBinary ()
 
+    let platform = "Android"
+
     let ws = new WebSocket("ws://localhost:55555/AmplitudeService")
     do 
         ws.OnOpen.Add (fun _ -> printfn "Client's WebSocket opened")
@@ -22,7 +24,7 @@ type Client (server : Server.Server, id : int) =
         ws.Send pickle //SendAsync vs Send
 
     member self.Run initialFunds buyIn =
-        self.SendMetric GameStarted
+        self.SendMetric (GameStarted platform)
         self.StartGame initialFunds buyIn
         |> self.GameLoop 0
 

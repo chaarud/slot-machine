@@ -3,7 +3,7 @@
 open Account
 
 type Metric = 
-    | GameStarted
+    | GameStarted of string
     | GameEnded
     | BuyMoneyMetric of Transaction*Account
     | PullLeverMetric of Transaction*Account
