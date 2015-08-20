@@ -17,19 +17,34 @@ type AmplitudeService () =
     let pickler = FsPickler.CreateBinary ()
 
     override self.OnMessage (e:MessageEventArgs) = 
-        let id, event = self.UnPickle e.RawData
-        match event with
+        let id, metric = self.UnPickle e.RawData
+        self.GenerateEvent id metric
+        |> self.SendRequest (id.ToString())
+
+    member self.GenerateEvent id (metric : Metric) = 
+         let id = "[{\"user_id\":\"" + (id.ToString ()) + "\","
+         let eventType = "\"event_type\":\"" + (self.EventName metric) + "\""
+         id + eventType + (self.GenerateTail metric)
+
+    member self.EventName = function
         | GameStarted _ -> "Game Started"
         | GameEnded -> "Game Ended"
-        | BuyMoneyMetric _ -> "Bought virtual currency"
+        | BuyMoneyMetric _ -> "Bought Virtual Currency"
         | PullLeverMetric _ -> "Pulled Lever"
-        |> self.SendRequest (id.ToString())
+
+    member self.GenerateTail metric = 
+        let contents = 
+            match metric with
+            | GameStarted _ -> ""
+            | GameEnded -> ""
+            | BuyMoneyMetric _ -> ""
+            | PullLeverMetric _ -> ""
+        contents + "}]"
 
     member self.SendRequest id event = 
         printfn "sending to amplitude"
         let url = "https://api.amplitude.com/httpapi"
         let api_key = Settings.ApiKey
-        let event = "[{\"user_id\":\"" + id + "\",\"event_type\":\"" + event + "\"}]"
         let requestBody = FormValues[("api_key", api_key); ("event", event)]
         Http.AsyncRequestString(url, body = requestBody) 
         //|> Async.RunSynchronously |> printfn "Request status: %A"
