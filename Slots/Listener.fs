@@ -35,10 +35,17 @@ type AmplitudeService () =
     member self.GenerateTail metric = 
         let contents = 
             match metric with
-            | GameStarted platform -> ",\"platform\":\"" + platform + "\"" // ,"platform":"Android"
+            | GameStarted platform -> 
+                // ,"platform":"Android"
+                ",\"platform\":\"" + platform + "\"" 
             | GameEnded -> ""
             | BuyMoneyMetric _ -> ""
-            | PullLeverMetric _ -> ""
+            | PullLeverMetric (trx,acct) -> 
+                let m = 
+                    match money acct with
+                    | Some m -> m
+                    | None -> 0
+                ",\"event_properties\":{\"money\":" + (m.ToString ()) + "}"
         contents + "}]"
 
     member self.SendRequest id event = 
