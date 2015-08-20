@@ -34,11 +34,11 @@ type Server () =
         match transaction with
         | PullLever -> 
             let newAcct = self.DoPullLever account
-            self.SendMetric id (PullLeverMetric transaction)
+            self.SendMetric id (PullLeverMetric (transaction, newAcct))
             newAcct
         | BuyMoney -> 
             let newAcct = self.DoBuyMoney account
-            self.SendMetric id (BuyMoneyMetric transaction)
+            self.SendMetric id (BuyMoneyMetric (transaction, newAcct))
             newAcct
 
     member self.DoPullLever account =

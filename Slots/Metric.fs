@@ -5,5 +5,5 @@ open Account
 type Metric = 
     | GameStarted
     | GameEnded
-    | BuyMoneyMetric of Transaction
-    | PullLeverMetric of Transaction
+    | BuyMoneyMetric of Transaction*Account
+    | PullLeverMetric of Transaction*Account
