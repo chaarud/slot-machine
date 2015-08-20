@@ -1,13 +1,16 @@
-﻿open Client
+﻿module Main
+
+open Client
 open Server
 open Listener
+
 open Nessos.FsPickler
 
 [<EntryPoint>]
 let main argv = 
     let idAssigner = new System.Random ()
-    let server = new Server ()
     Listener.startListening ()
+    let server = new Server ()
 
     let generator i = async {
         let id = idAssigner.Next (1,1000000)
@@ -16,7 +19,7 @@ let main argv =
         }
 
     let parallelClients = 
-        List.init 3 generator
+        List.init 1 generator
         |> Async.Parallel
         |> Async.RunSynchronously
 

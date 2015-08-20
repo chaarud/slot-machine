@@ -42,10 +42,10 @@
   <ItemGroup>
     <None Include="app.config" />
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Metrics.fs" />
     <Compile Include="Account.fs" />
-    <Compile Include="Server.fs" />
+    <Compile Include="Metric.fs" />
     <Compile Include="Listener.fs" />
+    <Compile Include="Server.fs" />
     <Compile Include="Client.fs" />
     <Compile Include="Main.fs" />
   </ItemGroup>

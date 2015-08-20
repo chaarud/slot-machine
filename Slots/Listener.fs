@@ -1,9 +1,11 @@
 ﻿module Listener
 
+open Account
+open Metric
+
 open FSharp.Data
 open FSharp.Configuration
 open Nessos.FsPickler
-open Metrics
 open WebSocketSharp
 open WebSocketSharp.Server
 
@@ -19,6 +21,8 @@ type AmplitudeService () =
         match event with
         | GameStarted -> "Game Started"
         | GameEnded -> "Game Ended"
+        | BuyMoneyMetric _ -> "Bought virtual currency"
+        | PullLeverMetric _ -> "Pulled Lever"
         |> self.SendRequest (id.ToString())
         
     member self.SendRequest id event = 

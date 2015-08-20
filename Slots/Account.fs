@@ -1,6 +1,8 @@
-﻿namespace Accounts
+﻿module Account 
 
-module Account =
+    type Transaction = 
+        | PullLever
+        | BuyMoney
 
     type Account = {
         money : int Option
@@ -9,10 +11,6 @@ module Account =
     let emptyAccount = { 
         money = None
         buyIn = None }
-
-    type Transaction = 
-        | PullLever
-        | BuyMoney
 
     let buyIn account = 
         account.buyIn
