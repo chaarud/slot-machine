@@ -24,7 +24,7 @@ type KinesisService () =
     let kinesisClient = kinesisProvider.setup ()
 
     override self.OnMessage (e:MessageEventArgs) = 
-        kinesisProvider.provide e.RawData kinesisClient
+        ignore <| kinesisProvider.provide e.RawData kinesisClient
 
 let startListening () = 
     let wsServer = new WebSocketServer("ws://localhost:55555")
