@@ -12,7 +12,7 @@ type Server () =
 
     let pickler = FsPickler.CreateBinary ()
 
-    let ws = new WebSocket("ws://localhost:55555/AmplitudeService")
+    let ws = new WebSocket("ws://localhost:55555/KinesisService")
     do 
         ws.OnOpen.Add (fun _ -> printfn "Slot Server's WebSocket opened")
         ws.OnClose.Add (fun _ -> printfn "Slot Server's WebSocket closed")
