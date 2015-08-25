@@ -30,7 +30,7 @@ type Client (server : Server.Server, id : int) =
 
     member self.GameLoop i account =
         Async.RunSynchronously <| Async.Sleep 50
-        match i >= 5 with
+        match i >= 300 with
         | true -> self.GameOver ()
         | false -> 
             match leverPullable account with

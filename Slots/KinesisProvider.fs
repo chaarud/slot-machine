@@ -14,7 +14,7 @@ type KinesisProvider () =
         let r = new System.Random ()
         let client = self.setup ()
         while true do
-            let bytes : byte array = Array.create 200 0uy
+            let bytes : byte array = Array.create 20 0uy
             r.NextBytes bytes
             ignore <| self.provide bytes client
             Async.RunSynchronously <| Async.Sleep 1000
@@ -25,10 +25,11 @@ type KinesisProvider () =
         let region = RegionEndpoint.USEast1
         new AmazonKinesisClient (awsAccessKeyId, awsSecretAccessKey, region)
 
-    member self.provide (data:byte[]) (kinesisClient:AmazonKinesisClient) = 
+    member self.provide (data : byte[]) (kinesisClient : AmazonKinesisClient) = 
         let putRecord = new PutRecordRequest ()
         putRecord.StreamName <- "SlotMachineKinesisStream"
         putRecord.PartitionKey <- "blahblahblah"
+        printfn "sent data %A" data
         putRecord.Data <- (new System.IO.MemoryStream (data))
         try
             kinesisClient.PutRecord(putRecord)

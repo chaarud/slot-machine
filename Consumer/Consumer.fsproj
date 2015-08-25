@@ -7,6 +7,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>Consumer</RootNamespace>
     <AssemblyName>Consumer</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -108,12 +109,10 @@
   <ItemGroup>
     <Reference Include="FsPickler.Json">
       <HintPath>..\packages\FsPickler-BeyondGames\lib\FsPickler.Json.dll</HintPath>
-      <Private>True</Private>
       <Paket>True</Paket>
     </Reference>
     <Reference Include="FsPickler">
       <HintPath>..\packages\FsPickler-BeyondGames\lib\FsPickler.dll</HintPath>
-      <Private>True</Private>
       <Paket>True</Paket>
     </Reference>
   </ItemGroup>
@@ -330,4 +329,10 @@
       </ItemGroup>
     </When>
   </Choose>
+  <ItemGroup>
+    <ProjectReference Include="..\Slots\Slots.fsproj">
+      <Project>{9280E422-874B-4992-A531-A0ED9DBC79E5}</Project>
+      <Name>Slots</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
