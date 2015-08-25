@@ -20,16 +20,10 @@ type KinesisProvider () =
             Async.RunSynchronously <| Async.Sleep 1000
 
     member self.setup () = 
-
         let awsAccessKeyId = Settings.AwsAccessKeyId
         let awsSecretAccessKey = Settings.AwsSecretAccessKey
-        let awsSessionToken = Settings.AwsSessionToken
-
         let region = RegionEndpoint.USEast1
-
-        let amazonKinesisClient = new AmazonKinesisClient (awsAccessKeyId, awsSecretAccessKey, awsSessionToken, region)
-
-        amazonKinesisClient
+        new AmazonKinesisClient (awsAccessKeyId, awsSecretAccessKey, region)
 
     member self.provide (data:byte[]) (kinesisClient:AmazonKinesisClient) = 
         let putRecord = new PutRecordRequest ()
