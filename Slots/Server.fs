@@ -40,6 +40,9 @@ type Server () =
             let newAcct = self.DoBuyMoney account
             self.SendMetric id (BuyMoneyMetric (transaction, newAcct))
             newAcct
+        | EndGame ->
+            printfn "Server reports that a client %A ended a game" id
+            emptyAccount
 
     member self.DoPullLever account =
         let r1 = random.Next(1,10)

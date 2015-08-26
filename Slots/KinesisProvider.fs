@@ -6,6 +6,10 @@ open Amazon.Kinesis.Model
 open Amazon.Kinesis
 open Amazon
 
+open Account
+open Metric
+open Nessos.FsPickler
+
 type Settings = AppSettings<"app.config">
 
 type KinesisProvider () = 
@@ -14,10 +18,13 @@ type KinesisProvider () =
         let r = new System.Random ()
         let client = self.setup ()
         while true do
-            let bytes : byte array = Array.create 20 0uy
-            r.NextBytes bytes
-            ignore <| self.provide bytes client
-            Async.RunSynchronously <| Async.Sleep 1000
+            let tuple = (55555, GameEnded)
+            let pickler = FsPickler.CreateBinary ()
+            let pickle = pickler.Pickle tuple
+//            let bytes : byte array = Array.create 20 0uy
+//            r.NextBytes bytes
+            ignore <| self.provide pickle client
+            Async.RunSynchronously <| Async.Sleep 20
 
     member self.setup () = 
         let awsAccessKeyId = Settings.AwsAccessKeyId
@@ -27,9 +34,9 @@ type KinesisProvider () =
 
     member self.provide (data : byte[]) (kinesisClient : AmazonKinesisClient) = 
         let putRecord = new PutRecordRequest ()
-        putRecord.StreamName <- "SlotMachineKinesisStream"
+        putRecord.StreamName <- "SlotMachineConsumerTest3"
         putRecord.PartitionKey <- "blahblahblah"
-        printfn "sent data %A" data
+        printfn "sent data" // %A" data
         putRecord.Data <- (new System.IO.MemoryStream (data))
         try
             kinesisClient.PutRecord(putRecord)

@@ -24,15 +24,17 @@ type Client (server : Server.Server, id : int) =
         ws.Send pickle //SendAsync vs Send
 
     member self.Run initialFunds buyIn =
-        self.SendMetric (GameStarted platform)
+        //self.SendMetric (GameStarted platform)
         self.StartGame initialFunds buyIn
         |> self.GameLoop 0
 
     member self.GameLoop i account =
-        Async.RunSynchronously <| Async.Sleep 50
-        match i >= 300 with
-        | true -> self.GameOver ()
+        Async.RunSynchronously <| Async.Sleep 5
+        match i >= 3000 with
+        | true -> 
+            self.GameOver id account
         | false -> 
+            printfn "step %A" i
             match leverPullable account with
             | true -> 
                 (id, PullLever)
@@ -47,9 +49,10 @@ type Client (server : Server.Server, id : int) =
     member self.DoTransaction (account : Account) (id, trx) = 
         server.Transaction account (id,trx)
 
-    member self.GameOver () = 
+    member self.GameOver id account = 
         self.SendMetric GameEnded
         printfn "Player has decided to stop playing"
+        let empty = self.DoTransaction account (id, EndGame)
         ws.Close ()
-        emptyAccount
+        empty
 

@@ -3,6 +3,7 @@
     type Transaction = 
         | PullLever
         | BuyMoney
+        | EndGame
 
     type Account = {
         money : int Option
