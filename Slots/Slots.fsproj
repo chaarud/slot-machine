@@ -136,12 +136,10 @@
   <ItemGroup>
     <Reference Include="FsPickler.Json">
       <HintPath>..\packages\FsPickler-BeyondGames\lib\FsPickler.Json.dll</HintPath>
-      <Private>True</Private>
       <Paket>True</Paket>
     </Reference>
     <Reference Include="FsPickler">
       <HintPath>..\packages\FsPickler-BeyondGames\lib\FsPickler.dll</HintPath>
-      <Private>True</Private>
       <Paket>True</Paket>
     </Reference>
   </ItemGroup>
