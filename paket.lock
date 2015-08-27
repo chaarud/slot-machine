@@ -1,0 +1,19 @@
+NUGET
+  remote: https://nuget.org/api/v2
+  specs:
+    AWSSDK (2.3.50.1)
+      Microsoft.Net.Http (>= 2.1.10) - framework: wpv8.0
+    FSharp.Configuration (0.5.3)
+    FSharp.Data (2.2.5)
+      Zlib.Portable (>= 1.10.0) - framework: portable-net40+sl50+wp80+win80
+    Microsoft.Bcl (1.1.10)
+      Microsoft.Bcl.Build (>= 1.0.14)
+    Microsoft.Bcl.Build (1.0.21)
+    Microsoft.Net.Http (2.2.29) - framework: wpv8.0
+      Microsoft.Bcl (>= 1.1.10)
+      Microsoft.Bcl.Build (>= 1.0.14)
+    websocket-sharp.clone (1.0.2)
+    Zlib.Portable (1.11.0) - framework: portable-net40+sl50+wp80+win80
+  remote: http://nuget.beyondgames.io/nuget
+  specs:
+    FsPickler-BeyondGames (1.0.0)
