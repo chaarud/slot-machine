@@ -57,7 +57,7 @@ type KinesisConsumer () =
             let dataStream : System.IO.MemoryStream = firstRecord.Data
             let data = dataStream.ToArray ()
             //deal with bad data in the stream
-            let pickler = FsPickler.CreateBinary ()
+            let pickler = FsPickler.CreateBinarySerializer ()
             let unPickledData = pickler.UnPickle<int*Metric> data
             printfn "data gotten from Kinesis: %A" unPickledData
         | false -> 

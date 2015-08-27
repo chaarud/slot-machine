@@ -19,7 +19,7 @@ type KinesisProvider () =
         let client = self.setup ()
         while true do
             let tuple = (55555, GameEnded)
-            let pickler = FsPickler.CreateBinarySerializer ()
+            let pickler = FsPickler.CreateBinary ()
             let pickle = pickler.Pickle tuple
 //            let bytes : byte array = Array.create 20 0uy
 //            r.NextBytes bytes

@@ -28,9 +28,9 @@ let main argv =
 
     let s = System.Console.ReadLine ()
 
-    printfn "making Provider object"
-    let provider = new KinesisProvider ()
-    printfn "entering testRun ()"
-    provider.testRun ()        
+//    printfn "making Provider object"
+//    let provider = new KinesisProvider ()
+//    printfn "entering testRun ()"
+//    provider.testRun ()        
 
     0 // return an integer exit code

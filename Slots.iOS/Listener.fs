@@ -2,7 +2,7 @@
 
 open Account
 open Metric
-open KinesisProvider
+//open KinesisProvider
 
 open FSharp.Data
 open FSharp.Configuration
@@ -10,8 +10,8 @@ open Nessos.FsPickler
 open WebSocketSharp
 open WebSocketSharp.Server
 
-open Amazon.Kinesis.Model
-open Amazon.Kinesis
+//open Amazon.Kinesis.Model
+//open Amazon.Kinesis
 
 type Settings = AppSettings<"app.config">
 
