@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{EF11BD80-07EC-4AB2-A098-3941693957C6}</ProjectGuid>
+    <ProjectGuid>{2693B99B-7C48-4568-AD3C-C333B1453516}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Consumer</RootNamespace>
-    <AssemblyName>Consumer</AssemblyName>
+    <RootNamespace>SlotsApp</RootNamespace>
+    <AssemblyName>SlotsApp</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -37,9 +37,7 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="KinesisConsumer.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.1\Framework\v4.0\Microsoft.FSharp.Targets" />
@@ -47,6 +45,10 @@
     <ProjectReference Include="..\Slots\Slots.fsproj">
       <Project>{9280E422-874B-4992-A531-A0ED9DBC79E5}</Project>
       <Name>Slots</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Consumer\Consumer.fsproj">
+      <Project>{EF11BD80-07EC-4AB2-A098-3941693957C6}</Project>
+      <Name>Consumer</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
@@ -90,22 +92,6 @@
       <ItemGroup>
         <Reference Include="AWSSDK">
           <HintPath>..\packages\AWSSDK\lib\portable-wpa+netcore45\AWSSDK.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6')">
-      <ItemGroup>
-        <Reference Include="FSharp.Configuration">
-          <HintPath>..\packages\FSharp.Configuration\lib\net40\FSharp.Configuration.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-        <Reference Include="SharpYaml">
-          <HintPath>..\packages\FSharp.Configuration\lib\net40\SharpYaml.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

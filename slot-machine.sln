@@ -5,12 +5,18 @@ Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "Slots", "Slots\Slots.fsproj
 EndProject
 Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "Consumer", "Consumer\Consumer.fsproj", "{EF11BD80-07EC-4AB2-A098-3941693957C6}"
 EndProject
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "SlotsApp", "SlotsApp\SlotsApp.fsproj", "{2693B99B-7C48-4568-AD3C-C333B1453516}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2693B99B-7C48-4568-AD3C-C333B1453516}.Debug|x86.ActiveCfg = Debug|x86
+		{2693B99B-7C48-4568-AD3C-C333B1453516}.Debug|x86.Build.0 = Debug|x86
+		{2693B99B-7C48-4568-AD3C-C333B1453516}.Release|x86.ActiveCfg = Release|x86
+		{2693B99B-7C48-4568-AD3C-C333B1453516}.Release|x86.Build.0 = Release|x86
 		{9280E422-874B-4992-A531-A0ED9DBC79E5}.Debug|x86.ActiveCfg = Debug|x86
 		{9280E422-874B-4992-A531-A0ED9DBC79E5}.Debug|x86.Build.0 = Debug|x86
 		{9280E422-874B-4992-A531-A0ED9DBC79E5}.Release|x86.ActiveCfg = Release|x86
