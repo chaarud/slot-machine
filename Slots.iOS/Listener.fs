@@ -1,5 +1,7 @@
 ﻿module Listener
 
+open AmplitudeSdk
+
 open Account
 open Metric
 
@@ -15,8 +17,9 @@ type KinesisService () =
 
     override self.OnMessage (e:MessageEventArgs) = 
         let id, metric = self.UnPickle e.RawData
-        self.GenerateEvent id metric
-        |> self.SendRequest (id.ToString())
+        Amplitude.Instance.LogEvent((self.EventName metric))
+//        self.GenerateEvent id metric
+//        |> self.SendRequest (id.ToString())
 
     member self.GenerateEvent id (metric : Metric) = 
          let id = "[{\"user_id\":\"" + (id.ToString ()) + "\","
