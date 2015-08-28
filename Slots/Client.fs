@@ -34,7 +34,6 @@ type Client (server : Server.Server, id : int) =
         | true -> 
             self.GameOver id account
         | false -> 
-            printfn "step %A" i
             match leverPullable account with
             | true -> 
                 (id, PullLever)

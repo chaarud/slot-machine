@@ -24,17 +24,16 @@ type Client (server : Server.Server, id : int) =
         ws.Send pickle //SendAsync vs Send
 
     member self.Run initialFunds buyIn =
-        //self.SendMetric (GameStarted platform)
+        self.SendMetric (GameStarted platform)
         self.StartGame initialFunds buyIn
         |> self.GameLoop 0
 
     member self.GameLoop i account =
         Async.RunSynchronously <| Async.Sleep 5
-        match i >= 3000 with
+        match i >= 10 with
         | true -> 
             self.GameOver id account
         | false -> 
-            printfn "step %A" i
             match leverPullable account with
             | true -> 
                 (id, PullLever)

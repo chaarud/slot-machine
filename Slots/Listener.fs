@@ -31,6 +31,7 @@ type KinesisService () =
 
     override self.OnMessage (e:MessageEventArgs) = 
         let id, metric = self.UnPickle e.RawData
+        printfn "got a message"
         self.GenerateEvent id metric
         |> self.SendRequest (id.ToString())
 
@@ -64,7 +65,9 @@ type KinesisService () =
     member self.SendRequest id event = 
         printfn "sending to amplitude"
         let url = "https://api.amplitude.com/httpapi"
-        let api_key = Settings.ApiKey
+        //let api_key = Settings.ApiKey
+        printfn "api key %A" (System.IO.File.ReadAllText "/Users/chaaru/Projects/game/Slots/app.config")
+        let api_key = System.IO.File.ReadAllText "/Users/chaaru/Projects/game/Slots/app.config"
         let requestBody = FormValues[("api_key", api_key); ("event", event)]
         Http.AsyncRequestString(url, body = requestBody) 
         //|> Async.RunSynchronously |> printfn "Request status: %A"
