@@ -399,7 +399,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Xamarin-Amplitude-iOS\Xamarin.Amplitude.Ios\Xamarin.Amplitude.Ios.csproj">
+    <ProjectReference Include="..\Xamarin.Amplitude.Ios\Xamarin.Amplitude.Ios.csproj">
       <Project>{FF672647-B8A1-4727-A400-3FB56E5FF7AD}</Project>
       <Name>Xamarin.Amplitude.Ios</Name>
     </ProjectReference>
