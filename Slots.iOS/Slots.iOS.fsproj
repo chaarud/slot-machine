@@ -39,13 +39,19 @@
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core" />
     <Reference Include="Xamarin.iOS" />
-    <Reference Include="WebSocketSharp">
-      <HintPath>..\packages\websocket-sharp.clone\lib\Net45\WebSocketSharp.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Net" />
     <Reference Include="FSharp.Configuration">
       <HintPath>..\packages\FSharp.Configuration\lib\net40\FSharp.Configuration.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net" />
+    <Reference Include="Zlib.Portable">
+      <HintPath>..\packages\Zlib.Portable\lib\portable-net4+sl5+wp8+win8+wpa81+MonoTouch+MonoAndroid\Zlib.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpYaml">
+      <HintPath>..\packages\FSharp.Configuration\lib\net40\SharpYaml.dll</HintPath>
+    </Reference>
+    <Reference Include="WebSocketSharp">
+      <HintPath>..\packages\websocket-sharp.clone\lib\Net45\WebSocketSharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -113,11 +119,6 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6')">
       <ItemGroup>
-        <Reference Include="FSharp.Configuration">
-          <HintPath>..\packages\FSharp.Configuration\lib\net40\FSharp.Configuration.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
         <Reference Include="SharpYaml">
           <HintPath>..\packages\FSharp.Configuration\lib\net40\SharpYaml.dll</HintPath>
           <Private>True</Private>
@@ -386,35 +387,6 @@
         </Reference>
         <Reference Include="System.Net.Http">
           <HintPath>..\packages\Microsoft.Net.Http\lib\sl4-windowsphone71\System.Net.Http.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5'">
-      <ItemGroup>
-        <Reference Include="WebSocketSharp">
-          <HintPath>..\packages\websocket-sharp.clone\lib\Net45\WebSocketSharp.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.1'">
-      <ItemGroup>
-        <Reference Include="WebSocketSharp">
-          <HintPath>..\packages\websocket-sharp.clone\lib\Net451\WebSocketSharp.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6')">
-      <ItemGroup>
-        <Reference Include="WebSocketSharp">
-          <HintPath>..\packages\websocket-sharp.clone\lib\Net452\WebSocketSharp.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

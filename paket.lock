@@ -13,8 +13,8 @@ NUGET
     Microsoft.Net.Http (2.2.29) - framework: wpv8.0
       Microsoft.Bcl (>= 1.1.10)
       Microsoft.Bcl.Build (>= 1.0.14)
-    websocket-sharp.clone (1.0.2)
     Zlib.Portable (1.11.0) - framework: portable-net40+sl50+wp80+win80
   remote: http://nuget.beyondgames.io/nuget
   specs:
     FsPickler-BeyondGames (3.0.0)
+    websocket-sharp-BeyondGames (1.0.0)
