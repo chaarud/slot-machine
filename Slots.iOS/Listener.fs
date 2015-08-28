@@ -2,36 +2,19 @@
 
 open Account
 open Metric
-open KinesisProvider
 
 open FSharp.Data
-open FSharp.Configuration
 open Nessos.FsPickler
 open WebSocketSharp
 open WebSocketSharp.Server
 
-open Amazon.Kinesis.Model
-open Amazon.Kinesis
-
-type Settings = AppSettings<"app.config">
-
 type KinesisService () =
-//    inherit WebSocketBehavior ()
-//
-//    let pickler = FsPickler.CreateBinary ()
-//
-//    let kinesisProvider = new KinesisProvider ()
-//    let kinesisClient = kinesisProvider.setup ()
-//
-//    override self.OnMessage (e:MessageEventArgs) = 
-//        ignore <| kinesisProvider.provide e.RawData kinesisClient
     inherit WebSocketBehavior ()
 
     let pickler = FsPickler.CreateBinarySerializer ()
 
     override self.OnMessage (e:MessageEventArgs) = 
         let id, metric = self.UnPickle e.RawData
-        printfn "got a message"
         self.GenerateEvent id metric
         |> self.SendRequest (id.ToString())
 
@@ -65,9 +48,7 @@ type KinesisService () =
     member self.SendRequest id event = 
         printfn "sending to amplitude"
         let url = "https://api.amplitude.com/httpapi"
-        //let api_key = Settings.ApiKey
-        printfn "api key %A" (System.IO.File.ReadAllText "/Users/chaaru/Projects/game/Slots/app.config")
-        let api_key = System.IO.File.ReadAllText "/Users/chaaru/Projects/game/Slots/app.config"
+        let api_key = System.IO.File.ReadAllText "/Users/chaaru/Projects/game/Slots.iOS/app.config"
         let requestBody = FormValues[("api_key", api_key); ("event", event)]
         Http.AsyncRequestString(url, body = requestBody) 
         //|> Async.RunSynchronously |> printfn "Request status: %A"
@@ -75,7 +56,7 @@ type KinesisService () =
 
     member self.UnPickle pickle = 
         pickler.UnPickle<int*Metric> pickle
-
+    
 let startListening () = 
     let wsServer = new WebSocketServer("ws://localhost:55555")
     wsServer.AddWebSocketService<KinesisService>("/KinesisService")

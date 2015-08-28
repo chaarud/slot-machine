@@ -2,7 +2,8 @@ source https://nuget.org/api/v2
 source http://nuget.beyondgames.io/nuget
 
 nuget AWSSDK
+nuget FAKE
 nuget FSharp.Configuration
 nuget FSharp.Data
 nuget FsPickler-BeyondGames
-nuget websocket-sharp.clone
+nuget websocket-sharp-BeyondGames

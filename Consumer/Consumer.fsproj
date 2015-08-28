@@ -43,6 +43,12 @@
     <Compile Include="Program.fs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.1\Framework\v4.0\Microsoft.FSharp.Targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Slots\Slots.fsproj">
+      <Project>{9280E422-874B-4992-A531-A0ED9DBC79E5}</Project>
+      <Name>Slots</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETCore'">
       <ItemGroup>
@@ -106,16 +112,36 @@
       </ItemGroup>
     </When>
   </Choose>
-  <ItemGroup>
-    <Reference Include="FsPickler.Json">
-      <HintPath>..\packages\FsPickler-BeyondGames\lib\FsPickler.Json.dll</HintPath>
-      <Paket>True</Paket>
-    </Reference>
-    <Reference Include="FsPickler">
-      <HintPath>..\packages\FsPickler-BeyondGames\lib\FsPickler.dll</HintPath>
-      <Paket>True</Paket>
-    </Reference>
-  </ItemGroup>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6')">
+      <ItemGroup>
+        <Reference Include="FsPickler.Json">
+          <HintPath>..\packages\FsPickler-BeyondGames\lib\net45\FsPickler.Json.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="FsPickler">
+          <HintPath>..\packages\FsPickler-BeyondGames\lib\net45\FsPickler.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'Xamarin.iOS'">
+      <ItemGroup>
+        <Reference Include="FsPickler.Json">
+          <HintPath>..\packages\FsPickler-BeyondGames\lib\xamarinios10\FsPickler.Json.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="FsPickler">
+          <HintPath>..\packages\FsPickler-BeyondGames\lib\xamarinios10\FsPickler.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0')">
       <ItemGroup>
@@ -329,10 +355,4 @@
       </ItemGroup>
     </When>
   </Choose>
-  <ItemGroup>
-    <ProjectReference Include="..\Slots\Slots.fsproj">
-      <Project>{9280E422-874B-4992-A531-A0ED9DBC79E5}</Project>
-      <Name>Slots</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>
