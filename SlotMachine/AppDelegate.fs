@@ -24,10 +24,12 @@ type AppDelegate () =
 
         let amp = Amplitude.Instance
         match amp with
-        | null -> printfn "why is Amplitude.Instance null?: %A" amp
-        | _ -> amp.InitializeApiKey (api_key)
+        | null -> 
+            printfn "why is Amplitude.Instance null?: %A" amp
+        | _ -> 
+            printfn "Initializing api key"
+            amp.InitializeApiKey (api_key)
         //Amplitude.Instance.LogEvent ("iOS test event")
-        printfn "done for now"
 
 //        let idAssigner = new System.Random ()
 //        Listener.startListening ()
