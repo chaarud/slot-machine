@@ -3,16 +3,32 @@ NUGET
   specs:
     AWSSDK (2.3.50.1)
       Microsoft.Net.Http (>= 2.1.10) - framework: wpv8.0
-    FAKE (4.3.1)
+    AWSSDK.Core (3.1.1)
+      Microsoft.Net.Http (>= 2.2.29) - framework: portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10
+      PCLCrypto (>= 1.0.2.15130) - framework: portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10
+      PCLStorage (>= 1.0.2) - framework: portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10
+    AWSSDK.Kinesis (3.1.0.1)
+      AWSSDK.Core (>= 3.1.1.0 < 3.2)
+    FAKE (4.3.4)
     FSharp.Configuration (0.5.3)
     FSharp.Data (2.2.5)
       Zlib.Portable (>= 1.10.0) - framework: portable-net40+sl50+wp80+win80
     Microsoft.Bcl (1.1.10)
       Microsoft.Bcl.Build (>= 1.0.14)
+    Microsoft.Bcl.Async (1.0.168)
+      Microsoft.Bcl (>= 1.1.8)
     Microsoft.Bcl.Build (1.0.21)
     Microsoft.Net.Http (2.2.29) - framework: wpv8.0
       Microsoft.Bcl (>= 1.1.10)
       Microsoft.Bcl.Build (>= 1.0.14)
+    Mono.Security (3.2.3) - framework: >= net40
+    PCLCrypto (1.0.2.15130) - framework: portable-net45+win+wpa81+wp80+monoandroid10+xamarinios10+monotouch10
+      Mono.Security (>= 3.2.3.0 < 4.0) - framework: >= net40
+      Validation (>= 2.0.6 < 3.0)
+    PCLStorage (1.0.2) - framework: portable-net45+win+wpa81+wp80+monoandroid10+xamarinios10+monotouch10
+      Microsoft.Bcl (>= 1.1.6)
+      Microsoft.Bcl.Async (>= 1.0.165)
+    Validation (2.0.6.15003)
     Zlib.Portable (1.11.0) - framework: portable-net40+sl50+wp80+win80
   remote: http://nuget.beyondgames.io/nuget
   specs:

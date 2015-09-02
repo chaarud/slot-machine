@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "Slots.NET", "Slots\Slots.NET.fsproj", "{9280E422-874B-4992-A531-A0ED9DBC79E5}"
-EndProject
-Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "Consumer.NET", "Consumer\Consumer.NET.fsproj", "{EF11BD80-07EC-4AB2-A098-3941693957C6}"
-EndProject
-Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "SlotsApp.NET", "SlotsApp\SlotsApp.NET.fsproj", "{2693B99B-7C48-4568-AD3C-C333B1453516}"
-EndProject
-Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "SlotsApp.iOS", "SlotMachine\SlotsApp.iOS.fsproj", "{2DAC9829-8C53-4B4D-96B1-4F91918B4F64}"
-EndProject
 Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "Slots.iOS", "Slots.iOS\Slots.iOS.fsproj", "{574E9D43-7965-4832-9F0D-F971F54DB492}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xamarin.Amplitude.Ios", "Xamarin.Amplitude.Ios\Xamarin.Amplitude.Ios.csproj", "{FF672647-B8A1-4727-A400-3FB56E5FF7AD}"
+EndProject
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "Consumer.NET", "Consumer.NET\Consumer.NET.fsproj", "{EF11BD80-07EC-4AB2-A098-3941693957C6}"
+EndProject
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "Slots.NET", "Slots.NET\Slots.NET.fsproj", "{9280E422-874B-4992-A531-A0ED9DBC79E5}"
+EndProject
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "SlotsApp.iOS", "SlotsApp.iOS\SlotsApp.iOS.fsproj", "{2DAC9829-8C53-4B4D-96B1-4F91918B4F64}"
+EndProject
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "SlotsApp.NET", "SlotsApp.NET\SlotsApp.NET.fsproj", "{2693B99B-7C48-4568-AD3C-C333B1453516}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

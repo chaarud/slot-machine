@@ -1,7 +1,5 @@
 ﻿module KinesisProvider
 
-open FSharp.Configuration
-
 open Amazon.Kinesis.Model
 open Amazon.Kinesis
 open Amazon

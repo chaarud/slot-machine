@@ -43,24 +43,24 @@
     <Reference Include="Zlib.Portable">
       <HintPath>..\packages\Zlib.Portable\lib\portable-net4+sl5+wp8+win8+wpa81+MonoTouch+MonoAndroid\Zlib.Portable.dll</HintPath>
     </Reference>
-    <Reference Include="WebSocketSharp">
-      <HintPath>..\packages\websocket-sharp.clone\lib\Net45\WebSocketSharp.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.FSharp.targets" />
   <ItemGroup>
-    <None Include="paket.references" />
+    <None Include="access_key_id.config" />
+    <None Include="secret_access_key.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Account.fs" />
     <Compile Include="Metric.fs" />
+    <Compile Include="KinesisProvider.fs" />
     <Compile Include="Listener.fs" />
     <Compile Include="Server.fs" />
     <Compile Include="Client.fs" />
+    <None Include="paket.references" />
   </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETCore'">
