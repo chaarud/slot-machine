@@ -1,13 +1,11 @@
-﻿<Properties StartupItem="Slots/Slots.NET.fsproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SlotMachine/AppDelegate.fs">
+﻿<Properties StartupItem="Slots.iOS/Slots.iOS.fsproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Slots.iOS/KinesisProvider.fs">
     <Files>
-      <File FileName="SlotMachine/AppDelegate.fs" Line="20" Column="40" />
-      <File FileName="SlotsApp/Program.fs" Line="21" Column="14" />
-      <File FileName="Slots/KinesisProvider.fs" Line="31" Column="39" />
-      <File FileName="Consumer/app.config" Line="1" Column="1" />
-      <File FileName="Slots/app.config" Line="8" Column="1" />
-      <File FileName="SlotMachine/Main.fs" Line="1" Column="1" />
+      <File FileName="Slots.iOS/paket.references" Line="1" Column="1" />
+      <File FileName="Slots.iOS/KinesisProvider.fs" Line="21" Column="34" />
+      <File FileName="Slots.iOS/Listener.fs" Line="1" Column="1" />
+      <File FileName="SlotsApp.iOS/AppDelegate.fs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

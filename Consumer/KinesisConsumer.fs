@@ -14,8 +14,8 @@ type Settings = AppSettings<"app.config">
 type KinesisConsumer () = 
 
     member self.createClient () = 
-        let awsAccessKeyId = Settings.AwsAccessKeyId
-        let awsSecretAccessKey = Settings.AwsSecretAccessKey
+        let awsAccessKeyId = "FILL_IN"//Settings.AwsAccessKeyId
+        let awsSecretAccessKey = "FILL_IN"//Settings.AwsSecretAccessKey
         let region = RegionEndpoint.USEast1
         new AmazonKinesisClient (awsAccessKeyId, awsSecretAccessKey, region)
 
