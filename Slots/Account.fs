@@ -1,6 +1,9 @@
-﻿namespace Accounts
+﻿module Account 
 
-module Account =
+    type Transaction = 
+        | PullLever
+        | BuyMoney
+        | EndGame
 
     type Account = {
         money : int Option
@@ -10,18 +13,13 @@ module Account =
         money = None
         buyIn = None }
 
-    type Transaction = 
-        | PullLever
-        | BuyMoney
-
-    let getBuyIn account = 
+    let buyIn account = 
         account.buyIn
 
-    let getMoney account = 
+    let money account = 
         account.money
 
     let leverPullable account = 
-        match getMoney account, getBuyIn account with
         | Some money, Some buyIn ->
             money > buyIn
         | _, _ -> 
