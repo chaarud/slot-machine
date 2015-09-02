@@ -20,6 +20,7 @@
         account.money
 
     let leverPullable account = 
+        match money account, buyIn account with
         | Some money, Some buyIn ->
             money > buyIn
         | _, _ -> 

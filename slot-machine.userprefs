@@ -1,4 +1,4 @@
-﻿<Properties StartupItem="game/slots.fsproj">
+﻿<Properties StartupItem="Slots/Slots.NET.fsproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="game/Client.fs">
     <Files>

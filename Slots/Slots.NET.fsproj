@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Account.fs" />
     <Compile Include="Metric.fs" />

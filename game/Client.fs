@@ -34,8 +34,6 @@ let rec gameLoop id i rng server account =
 [<EntryPoint>]
 let main argv = 
 
-    Analytics.Initialize("f6XVyYT24A2IHwNccCaXapA9FuZLnhXJ")
-
     let initialAccount, server = startGame 10000 10
     let rng = new System.Random ()
 
@@ -43,10 +41,6 @@ let main argv =
 //    let id = idNum.ToString ()
     let id = "Jeff"
 //    let playerDevice = "iPhone"
-
-    Analytics.Client.Identify(id, new Model.Traits ())
-    printfn "%A" id
-    Analytics.Client.Track(id, "Logged In")
 
     let finalAccount = gameLoop id 0 rng server initialAccount
     0 // return an integer exit code

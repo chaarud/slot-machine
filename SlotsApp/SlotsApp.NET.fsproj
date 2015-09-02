@@ -42,13 +42,13 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.1\Framework\v4.0\Microsoft.FSharp.Targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Slots\Slots.fsproj">
+    <ProjectReference Include="..\Slots\Slots.NET.fsproj">
       <Project>{9280E422-874B-4992-A531-A0ED9DBC79E5}</Project>
-      <Name>Slots</Name>
+      <Name>Slots.NET</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Consumer\Consumer.fsproj">
+    <ProjectReference Include="..\Consumer\Consumer.NET.fsproj">
       <Project>{EF11BD80-07EC-4AB2-A098-3941693957C6}</Project>
-      <Name>Consumer</Name>
+      <Name>Consumer.NET</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

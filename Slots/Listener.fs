@@ -13,7 +13,7 @@ open WebSocketSharp.Server
 open Amazon.Kinesis.Model
 open Amazon.Kinesis
 
-type Settings = AppSettings<"app.config">
+type Settings = AppSettings<"app.config"> 
 
 type KinesisService () =
 //    inherit WebSocketBehavior ()
