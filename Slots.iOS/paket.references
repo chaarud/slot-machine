@@ -3,3 +3,11 @@ FSharp.Configuration
 FsPickler-BeyondGames
 websocket-sharp-BeyondGames
 AWSSDK
+AWSSDK.Core
+PCLCrypto
+PCLStorage
+AWSSDK.Kinesis
+Microsoft.Bcl
+Microsoft.Bcl.Build
+Microsoft.Net.Http
+Validation

@@ -558,7 +558,99 @@
     </When>
   </Choose>
   <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == 'WindowsPhone' And $(TargetFrameworkVersion) == 'v8.0'">
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETCore'">
+      <ItemGroup>
+        <Reference Include="System.Net.Http.Extensions">
+          <HintPath>..\packages\Microsoft.Net.Http\lib\win8\System.Net.Http.Extensions.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Net.Http.Primitives">
+          <HintPath>..\packages\Microsoft.Net.Http\lib\win8\System.Net.Http.Primitives.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0')">
+      <ItemGroup>
+        <Reference Include="System.Net.Http.Extensions">
+          <HintPath>..\packages\Microsoft.Net.Http\lib\net40\System.Net.Http.Extensions.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Net.Http.Primitives">
+          <HintPath>..\packages\Microsoft.Net.Http\lib\net40\System.Net.Http.Primitives.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Net.Http.WebRequest">
+          <HintPath>..\packages\Microsoft.Net.Http\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Net.Http">
+          <HintPath>..\packages\Microsoft.Net.Http\lib\net40\System.Net.Http.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6')">
+      <ItemGroup>
+        <Reference Include="System.Net.Http.Extensions">
+          <HintPath>..\packages\Microsoft.Net.Http\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Net.Http.Primitives">
+          <HintPath>..\packages\Microsoft.Net.Http\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Net.Http">
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Net.Http.WebRequest">
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'MonoAndroid'">
+      <ItemGroup>
+        <Reference Include="System.Net.Http.Extensions">
+          <HintPath>..\packages\Microsoft.Net.Http\lib\monoandroid\System.Net.Http.Extensions.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Net.Http.Primitives">
+          <HintPath>..\packages\Microsoft.Net.Http\lib\monoandroid\System.Net.Http.Primitives.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Net.Http">
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'MonoTouch'">
+      <ItemGroup>
+        <Reference Include="System.Net.Http.Extensions">
+          <HintPath>..\packages\Microsoft.Net.Http\lib\monotouch\System.Net.Http.Extensions.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Net.Http.Primitives">
+          <HintPath>..\packages\Microsoft.Net.Http\lib\monotouch\System.Net.Http.Primitives.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Net.Http">
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'WindowsPhone' And ($(TargetFrameworkVersion) == 'v7.1' Or $(TargetFrameworkVersion) == 'v8.0' Or $(TargetFrameworkVersion) == 'v8.1')">
       <ItemGroup>
         <Reference Include="System.Net.Http.Extensions">
           <HintPath>..\packages\Microsoft.Net.Http\lib\sl4-windowsphone71\System.Net.Http.Extensions.dll</HintPath>
@@ -572,6 +664,81 @@
         </Reference>
         <Reference Include="System.Net.Http">
           <HintPath>..\packages\Microsoft.Net.Http\lib\sl4-windowsphone71\System.Net.Http.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'WindowsPhoneApp'">
+      <ItemGroup>
+        <Reference Include="System.Net.Http.Extensions">
+          <HintPath>..\packages\Microsoft.Net.Http\lib\wpa81\System.Net.Http.Extensions.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Net.Http.Primitives">
+          <HintPath>..\packages\Microsoft.Net.Http\lib\wpa81\System.Net.Http.Primitives.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'Xamarin.iOS'">
+      <ItemGroup>
+        <Reference Include="System.Net.Http.Extensions">
+          <HintPath>..\packages\Microsoft.Net.Http\lib\Xamarin.iOS10\System.Net.Http.Extensions.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Net.Http.Primitives">
+          <HintPath>..\packages\Microsoft.Net.Http\lib\Xamarin.iOS10\System.Net.Http.Primitives.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="($(TargetFrameworkIdentifier) == 'Silverlight' And ($(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v5.0')) Or ($(TargetFrameworkProfile) == 'Profile3') Or ($(TargetFrameworkProfile) == 'Profile5') Or ($(TargetFrameworkProfile) == 'Profile6') Or ($(TargetFrameworkProfile) == 'Profile14') Or ($(TargetFrameworkProfile) == 'Profile18') Or ($(TargetFrameworkProfile) == 'Profile19') Or ($(TargetFrameworkProfile) == 'Profile23') Or ($(TargetFrameworkProfile) == 'Profile24') Or ($(TargetFrameworkProfile) == 'Profile31') Or ($(TargetFrameworkProfile) == 'Profile36') Or ($(TargetFrameworkProfile) == 'Profile37') Or ($(TargetFrameworkProfile) == 'Profile41') Or ($(TargetFrameworkProfile) == 'Profile42') Or ($(TargetFrameworkProfile) == 'Profile46') Or ($(TargetFrameworkProfile) == 'Profile47') Or ($(TargetFrameworkProfile) == 'Profile49') Or ($(TargetFrameworkProfile) == 'Profile78') Or ($(TargetFrameworkProfile) == 'Profile84') Or ($(TargetFrameworkProfile) == 'Profile88') Or ($(TargetFrameworkProfile) == 'Profile92') Or ($(TargetFrameworkProfile) == 'Profile96') Or ($(TargetFrameworkProfile) == 'Profile102') Or ($(TargetFrameworkProfile) == 'Profile104') Or ($(TargetFrameworkProfile) == 'Profile136') Or ($(TargetFrameworkProfile) == 'Profile143') Or ($(TargetFrameworkProfile) == 'Profile147') Or ($(TargetFrameworkProfile) == 'Profile154') Or ($(TargetFrameworkProfile) == 'Profile157') Or ($(TargetFrameworkProfile) == 'Profile158') Or ($(TargetFrameworkProfile) == 'Profile225') Or ($(TargetFrameworkProfile) == 'Profile240') Or ($(TargetFrameworkProfile) == 'Profile255') Or ($(TargetFrameworkProfile) == 'Profile259') Or ($(TargetFrameworkProfile) == 'Profile328') Or ($(TargetFrameworkProfile) == 'Profile336') Or ($(TargetFrameworkProfile) == 'Profile344')">
+      <ItemGroup>
+        <Reference Include="System.Net.Http.Extensions">
+          <HintPath>..\packages\Microsoft.Net.Http\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Extensions.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Net.Http.Primitives">
+          <HintPath>..\packages\Microsoft.Net.Http\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Primitives.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Net.Http">
+          <HintPath>..\packages\Microsoft.Net.Http\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="($(TargetFrameworkIdentifier) == 'Xamarin.Mac') Or ($(TargetFrameworkProfile) == 'Profile7') Or ($(TargetFrameworkProfile) == 'Profile44')">
+      <ItemGroup>
+        <Reference Include="System.Net.Http.Extensions">
+          <HintPath>..\packages\Microsoft.Net.Http\lib\portable-net45+win8\System.Net.Http.Extensions.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Net.Http.Primitives">
+          <HintPath>..\packages\Microsoft.Net.Http\lib\portable-net45+win8\System.Net.Http.Primitives.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="($(TargetFrameworkProfile) == 'Profile32') Or ($(TargetFrameworkProfile) == 'Profile111') Or ($(TargetFrameworkProfile) == 'Profile151')">
+      <ItemGroup>
+        <Reference Include="System.Net.Http.Extensions">
+          <HintPath>..\packages\Microsoft.Net.Http\lib\portable-net45+win8+wpa81\System.Net.Http.Extensions.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Net.Http.Primitives">
+          <HintPath>..\packages\Microsoft.Net.Http\lib\portable-net45+win8+wpa81\System.Net.Http.Primitives.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -599,7 +766,79 @@
     </When>
   </Choose>
   <Choose>
-    <When Condition="($(TargetFrameworkProfile) == 'Profile5') Or ($(TargetFrameworkProfile) == 'Profile6') Or ($(TargetFrameworkProfile) == 'Profile7') Or ($(TargetFrameworkProfile) == 'Profile14') Or ($(TargetFrameworkProfile) == 'Profile19') Or ($(TargetFrameworkProfile) == 'Profile24') Or ($(TargetFrameworkProfile) == 'Profile31') Or ($(TargetFrameworkProfile) == 'Profile32') Or ($(TargetFrameworkProfile) == 'Profile37') Or ($(TargetFrameworkProfile) == 'Profile42') Or ($(TargetFrameworkProfile) == 'Profile44') Or ($(TargetFrameworkProfile) == 'Profile47') Or ($(TargetFrameworkProfile) == 'Profile49') Or ($(TargetFrameworkProfile) == 'Profile78') Or ($(TargetFrameworkProfile) == 'Profile84') Or ($(TargetFrameworkProfile) == 'Profile92') Or ($(TargetFrameworkProfile) == 'Profile102') Or ($(TargetFrameworkProfile) == 'Profile111') Or ($(TargetFrameworkProfile) == 'Profile136') Or ($(TargetFrameworkProfile) == 'Profile147') Or ($(TargetFrameworkProfile) == 'Profile151') Or ($(TargetFrameworkProfile) == 'Profile157') Or ($(TargetFrameworkProfile) == 'Profile158') Or ($(TargetFrameworkProfile) == 'Profile225') Or ($(TargetFrameworkProfile) == 'Profile240') Or ($(TargetFrameworkProfile) == 'Profile255') Or ($(TargetFrameworkProfile) == 'Profile259') Or ($(TargetFrameworkProfile) == 'Profile328') Or ($(TargetFrameworkProfile) == 'Profile336') Or ($(TargetFrameworkProfile) == 'Profile344')">
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETCore' And $(TargetFrameworkVersion) == 'v4.5.1'">
+      <ItemGroup>
+        <Reference Include="PCLCrypto">
+          <HintPath>..\packages\PCLCrypto\lib\win81\PCLCrypto.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6')">
+      <ItemGroup>
+        <Reference Include="PCLCrypto">
+          <HintPath>..\packages\PCLCrypto\lib\net40-Client\PCLCrypto.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'MonoAndroid'">
+      <ItemGroup>
+        <Reference Include="PCLCrypto">
+          <HintPath>..\packages\PCLCrypto\lib\monoandroid\PCLCrypto.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'MonoTouch'">
+      <ItemGroup>
+        <Reference Include="PCLCrypto">
+          <HintPath>..\packages\PCLCrypto\lib\monotouch\PCLCrypto.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'Silverlight' And $(TargetFrameworkVersion) == 'v5.0'">
+      <ItemGroup>
+        <Reference Include="PCLCrypto">
+          <HintPath>..\packages\PCLCrypto\lib\sl5\PCLCrypto.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'WindowsPhone' And ($(TargetFrameworkVersion) == 'v8.0' Or $(TargetFrameworkVersion) == 'v8.1')">
+      <ItemGroup>
+        <Reference Include="PCLCrypto">
+          <HintPath>..\packages\PCLCrypto\lib\wp8\PCLCrypto.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'WindowsPhoneApp'">
+      <ItemGroup>
+        <Reference Include="PCLCrypto">
+          <HintPath>..\packages\PCLCrypto\lib\wpa81\PCLCrypto.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'Xamarin.iOS'">
+      <ItemGroup>
+        <Reference Include="PCLCrypto">
+          <HintPath>..\packages\PCLCrypto\lib\Xamarin.iOS\PCLCrypto.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="($(TargetFrameworkIdentifier) == '.NETCore' And $(TargetFrameworkVersion) == 'v4.5') Or ($(TargetFrameworkIdentifier) == 'Xamarin.Mac') Or ($(TargetFrameworkProfile) == 'Profile5') Or ($(TargetFrameworkProfile) == 'Profile6') Or ($(TargetFrameworkProfile) == 'Profile7') Or ($(TargetFrameworkProfile) == 'Profile14') Or ($(TargetFrameworkProfile) == 'Profile19') Or ($(TargetFrameworkProfile) == 'Profile24') Or ($(TargetFrameworkProfile) == 'Profile31') Or ($(TargetFrameworkProfile) == 'Profile32') Or ($(TargetFrameworkProfile) == 'Profile37') Or ($(TargetFrameworkProfile) == 'Profile42') Or ($(TargetFrameworkProfile) == 'Profile44') Or ($(TargetFrameworkProfile) == 'Profile47') Or ($(TargetFrameworkProfile) == 'Profile49') Or ($(TargetFrameworkProfile) == 'Profile78') Or ($(TargetFrameworkProfile) == 'Profile84') Or ($(TargetFrameworkProfile) == 'Profile92') Or ($(TargetFrameworkProfile) == 'Profile102') Or ($(TargetFrameworkProfile) == 'Profile111') Or ($(TargetFrameworkProfile) == 'Profile136') Or ($(TargetFrameworkProfile) == 'Profile147') Or ($(TargetFrameworkProfile) == 'Profile151') Or ($(TargetFrameworkProfile) == 'Profile157') Or ($(TargetFrameworkProfile) == 'Profile158') Or ($(TargetFrameworkProfile) == 'Profile225') Or ($(TargetFrameworkProfile) == 'Profile240') Or ($(TargetFrameworkProfile) == 'Profile255') Or ($(TargetFrameworkProfile) == 'Profile259') Or ($(TargetFrameworkProfile) == 'Profile328') Or ($(TargetFrameworkProfile) == 'Profile336') Or ($(TargetFrameworkProfile) == 'Profile344')">
       <ItemGroup>
         <Reference Include="PCLCrypto">
           <HintPath>..\packages\PCLCrypto\lib\portable-net40+sl50+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\PCLCrypto.dll</HintPath>
@@ -610,7 +849,77 @@
     </When>
   </Choose>
   <Choose>
-    <When Condition="$(TargetFrameworkProfile) == 'Profile32'">
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6')">
+      <ItemGroup>
+        <Reference Include="PCLStorage.Abstractions">
+          <HintPath>..\packages\PCLStorage\lib\net45\PCLStorage.Abstractions.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="PCLStorage">
+          <HintPath>..\packages\PCLStorage\lib\net45\PCLStorage.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'MonoAndroid'">
+      <ItemGroup>
+        <Reference Include="PCLStorage.Abstractions">
+          <HintPath>..\packages\PCLStorage\lib\monoandroid\PCLStorage.Abstractions.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="PCLStorage">
+          <HintPath>..\packages\PCLStorage\lib\monoandroid\PCLStorage.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'MonoTouch'">
+      <ItemGroup>
+        <Reference Include="PCLStorage.Abstractions">
+          <HintPath>..\packages\PCLStorage\lib\monotouch\PCLStorage.Abstractions.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="PCLStorage">
+          <HintPath>..\packages\PCLStorage\lib\monotouch\PCLStorage.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'Silverlight' And $(TargetFrameworkVersion) == 'v5.0'">
+      <ItemGroup>
+        <Reference Include="PCLStorage.Abstractions">
+          <HintPath>..\packages\PCLStorage\lib\sl5\PCLStorage.Abstractions.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="PCLStorage">
+          <HintPath>..\packages\PCLStorage\lib\sl5\PCLStorage.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'WindowsPhone' And ($(TargetFrameworkVersion) == 'v8.0' Or $(TargetFrameworkVersion) == 'v8.1')">
+      <ItemGroup>
+        <Reference Include="PCLStorage.Abstractions">
+          <HintPath>..\packages\PCLStorage\lib\wp8\PCLStorage.Abstractions.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="PCLStorage">
+          <HintPath>..\packages\PCLStorage\lib\wp8\PCLStorage.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="($(TargetFrameworkIdentifier) == 'WindowsPhoneApp') Or ($(TargetFrameworkIdentifier) == '.NETCore') Or ($(TargetFrameworkProfile) == 'Profile32')">
       <ItemGroup>
         <Reference Include="PCLStorage.Abstractions">
           <HintPath>..\packages\PCLStorage\lib\portable-win8+wpa81\PCLStorage.Abstractions.dll</HintPath>
@@ -619,6 +928,20 @@
         </Reference>
         <Reference Include="PCLStorage">
           <HintPath>..\packages\PCLStorage\lib\portable-win8+wpa81\PCLStorage.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="($(TargetFrameworkIdentifier) == 'Xamarin.iOS') Or ($(TargetFrameworkIdentifier) == 'Xamarin.Mac')">
+      <ItemGroup>
+        <Reference Include="PCLStorage.Abstractions">
+          <HintPath>..\packages\PCLStorage\lib\portable-Xamarin.iOS+Xamarin.Mac\PCLStorage.Abstractions.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="PCLStorage">
+          <HintPath>..\packages\PCLStorage\lib\portable-Xamarin.iOS+Xamarin.Mac\PCLStorage.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

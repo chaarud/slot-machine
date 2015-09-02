@@ -8,4 +8,10 @@ nuget FAKE
 nuget FSharp.Configuration
 nuget FSharp.Data
 nuget FsPickler-BeyondGames
+nuget Microsoft.Bcl
+nuget Microsoft.Bcl.Build
+nuget Microsoft.Net.Http
+nuget PCLCrypto
+nuget PCLStorage
+nuget Validation
 nuget websocket-sharp-BeyondGames
