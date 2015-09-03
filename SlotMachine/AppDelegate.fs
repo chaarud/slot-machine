@@ -1,7 +1,5 @@
 ﻿namespace SlotMachine
 
-open AmplitudeSdk
-
 open System
 
 open Client
