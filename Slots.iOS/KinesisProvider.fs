@@ -16,18 +16,17 @@ let bytesToHexStr (bytes:byte array) =
     |> String.concat System.String.Empty
 
 let createCanonicalRequest (payload:string) =
-//    printfn "creating the canonical request"
-    let canonical :string = "POST" + "\n" + "/" + "\n" + "" + "\n" + "host:kinesis.us-east-1.amazonaws.com\nx-amz-date:20150903T120000Z" + "\n" + "host;x-amz-date" + "\n"
-    let hash = new System.Security.Cryptography.SHA256Managed ()
-    let hashed = hash.ComputeHash(Encoding.ASCII.GetBytes payload)
-    let hex = bytesToHexStr hashed
-    let lower = hex.ToLower ()
-    let finalCanonical = canonical + lower
-    let finalCanonicalHashed = hash.ComputeHash(Encoding.ASCII.GetBytes finalCanonical)
-    let hexFinalCanonicalHashed = bytesToHexStr finalCanonicalHashed
-    let finalLower = hexFinalCanonicalHashed.ToLower ()
-//    printfn "final hashed canonical %A" finalLower
-    finalLower
+    let hasher = new System.Security.Cryptography.SHA256Managed ()
+    let hashedPayload = hasher.ComputeHash(Encoding.ASCII.GetBytes payload)
+    let hexPayload = bytesToHexStr hashedPayload
+    let lowerCasePayload = hexPayload.ToLower ()
+
+    let canonicalRequest :string = "POST" + "\n" + "/" + "\n" + "" + "\n" + "host:kinesis.us-east-1.amazonaws.com\nx-amz-date:20150903T120000Z" + "\n" + "host;x-amz-date" + "\n"
+    let request = canonicalRequest + lowerCasePayload
+    let hashedRequest = hasher.ComputeHash(Encoding.ASCII.GetBytes request)
+    let hexRequest = bytesToHexStr hashedRequest
+    hexRequest.ToLower ()
+//    printfn "final hashed canonical %A" (hexRequest.ToLower ())
 
 let createStringToSign payload =
     let hashedCanonical = createCanonicalRequest payload
@@ -40,40 +39,22 @@ let keySign (hmac:Security.Cryptography.HMAC) (data:string) (key:byte array) =
     hmac.ComputeHash (Encoding.ASCII.GetBytes data)
 
 let calculateSignature payload = 
-    printfn "calculating signature"
     let signer = 
         System.Security.Cryptography.HMACSHA256.Create ()
         |> keySign
-    let secret = System.IO.File.ReadAllText "/Users/chaaru/slot-machine/Slots.iOS/secret_access_key.config"
-    let hexSig = 
-        signer "20150903" (Encoding.ASCII.GetBytes ("AWS4" + secret))
+    let hexSignature = 
+        System.IO.File.ReadAllText "/Users/chaaru/slot-machine/Slots.iOS/secret_access_key.config"
+        |> (+) "AWS4"
+        |> Encoding.ASCII.GetBytes
+        |> signer "20150903"
         |> signer "us-east-1"
         |> signer "kinesis"
         |> signer "aws4_request"
         |> signer (createStringToSign payload)
         |> bytesToHexStr
-    hexSig.ToLower ()
-
-//    hmac.Key <- Encoding.ASCII.GetBytes ("AWS4" + kSecret)
-//    let kDate = hmac.ComputeHash(Encoding.ASCII.GetBytes "20150903")
-//    hmac.Key <- kDate
-//    let kRegion = hmac.ComputeHash(Encoding.ASCII.GetBytes "us-east-1")
-//    hmac.Key <- kRegion
-//    let kService = hmac.ComputeHash(Encoding.ASCII.GetBytes "kinesis")
-//    hmac.Key <- kService
-//    let kSigning = hmac.ComputeHash(Encoding.ASCII.GetBytes "aws4_request")
-//    hmac.Key <- kSigning
-//    let signature = hmac.ComputeHash(Encoding.ASCII.GetBytes (createStringToSign payload))
-//    let hexSig =
-//        signature
-//        |> Array.map (fun (x:byte) -> System.String.Format("{0:X2}", x))
-//        |> String.concat System.String.Empty
-//    let lowerHexSig = hexSig.ToLower ()
-////    printfn "hex sig %A" lowerHexSig
-//    lowerHexSig
+    hexSignature.ToLower ()
 
 let sigInfo payload = 
-    printfn "getting signing info"
     let accessKeyId = System.IO.File.ReadAllText "/Users/chaaru/slot-machine/Slots.iOS/access_key_id.config"
     "AWS4-HMAC-SHA256 Credential=" + accessKeyId + "/20150903/us-east-1/kinesis/aws4_request, SignedHeaders=host;x-amz-date, Signature=" + (calculateSignature payload)
 
@@ -101,13 +82,11 @@ let provide' () =
     req.Headers.Add ("Authentication", auth)
     req.Headers.Add ("X-Amz-Date", "20150903T120000Z")
     req.Headers.Add ("Connection", "Keep-Alive X-Amz-Target: Kinesis_20131202.PutRecord")
-    //printfn "here's the request %A" (req.ToString ())
     printfn "headers %A" req.Headers.AllKeys
 
     let reqStream = req.GetRequestStream ()
     reqStream.Write (bodyBytes, 0, Array.length bodyBytes)
     reqStream.Close ()
-//    printfn "closed req stream"
 
     let resp = 
         try
