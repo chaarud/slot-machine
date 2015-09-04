@@ -29,25 +29,34 @@ type AppDelegate () =
 
 //    ================================================
 
-//        let idAssigner = new System.Random ()
-//        Listener.startListening ()
-//        let server = new Server ()
-//
-//        let generator i = async {
-//            let id = idAssigner.Next (1,1000000)
-//            let client = new Client (server, id)
-//            ignore <| client.Run 1000 10
-//            }
-//
-//        let parallelClients = 
-//            List.init 3 generator
-//            |> Async.Parallel
-//            |> Async.RunSynchronously
-//
-//        Async.RunSynchronously <| Async.Sleep 5000
+        let idAssigner = new System.Random ()
+        Listener.startListening ()
+        let server = new Server ()
+
+        let generator i = async {
+            let id = idAssigner.Next (1,1000000)
+            let client = new Client (server, id)
+            ignore <| client.Run 1000 10
+            }
+
+        let parallelClients = 
+            List.init 1 generator
+            |> Async.Parallel
+            |> Async.RunSynchronously
+
+        Async.RunSynchronously <| Async.Sleep 5000
 
 //    ================================================
 
-        printfn "Kinesis response: %A" (provide' ())
+//        let mutable i = 0
+//        while i < 300 do
+//            ignore <| provide (Text.Encoding.ASCII.GetBytes "testdatas")
+//            printfn "%A" i
+//            Async.RunSynchronously <| Async.Sleep 1000
+//            i <- i+1
+//        printfn "done"
+//        Async.RunSynchronously <| Async.Sleep 1000
+
+//    ================================================
 
         true
