@@ -10,6 +10,10 @@ open System.Net
 open System.IO
 open System
 
+let datetime = "20150904T205414Z"
+let date = "20150904"
+let host = "kinesis.us-east-1.amazonaws.com"
+
 let bytesToHexStr (bytes:byte array) =
     bytes
     |> Array.map (fun (x:byte) -> System.String.Format("{0:X2}", x))
@@ -21,7 +25,7 @@ let createCanonicalRequest (payload:string) =
     let hexPayload = bytesToHexStr hashedPayload
     let lowerCasePayload = hexPayload.ToLower ()
 
-    let canonicalRequest :string = "POST" + "\n" + "/" + "\n" + "" + "\n" + "host:kinesis.us-east-1.amazonaws.com\nx-amz-date:20150904T090000Z\n" + "\n" + "host;x-amz-date" + "\n"
+    let canonicalRequest :string = "POST" + "\n" + "/" + "\n" + "" + "\n" + "host:" + host + "\nx-amz-date:" + datetime + "\n" + "\n" + "host;x-amz-date" + "\n"
     let request = canonicalRequest + lowerCasePayload
     let hashedRequest = hasher.ComputeHash(Encoding.ASCII.GetBytes request)
     let hexRequest = bytesToHexStr hashedRequest
@@ -30,11 +34,15 @@ let createCanonicalRequest (payload:string) =
 
 let createStringToSign payload =
     let hashedCanonical = createCanonicalRequest payload
-    "AWS4-HMAC-SHA256" + "\n" + "20150904T090000Z" + "\n" + "20150904/us-east-1/kinesis/aws4_request" + "\n" + hashedCanonical
+    "AWS4-HMAC-SHA256" + "\n" + datetime + "\n" + date + "/us-east-1/kinesis/aws4_request" + "\n" + hashedCanonical
 
 let keySign (hmac:Security.Cryptography.HMAC) (data:string) (key:byte array) = 
-    hmac.Key <- key
-    hmac.ComputeHash (Encoding.ASCII.GetBytes data)
+    let algo = "HmacSHA256"
+    let kha = Security.Cryptography.KeyedHashAlgorithm.Create(algo)
+    kha.Key <- key
+    kha.ComputeHash (Encoding.UTF8.GetBytes data)
+//    hmac.Key <- key
+//    hmac.ComputeHash (Encoding.UTF8.GetBytes data)
 
 let calculateSignature payload = 
     let signer = 
@@ -43,8 +51,8 @@ let calculateSignature payload =
     let hexSignature = 
         System.IO.File.ReadAllText "/Users/chaaru/slot-machine/Slots.iOS/secret_access_key.config"
         |> (+) "AWS4"
-        |> Encoding.ASCII.GetBytes
-        |> signer "20150904"
+        |> Encoding.UTF8.GetBytes
+        |> signer date
         |> signer "us-east-1"
         |> signer "kinesis"
         |> signer "aws4_request"
@@ -54,26 +62,23 @@ let calculateSignature payload =
 
 let sigInfo payload = 
     let accessKeyId = System.IO.File.ReadAllText "/Users/chaaru/slot-machine/Slots.iOS/access_key_id.config"
-    "AWS4-HMAC-SHA256 Credential=" + accessKeyId + "/20150903/us-east-1/kinesis/aws4_request, SignedHeaders=host;x-amz-date, Signature=" + (calculateSignature payload)
+    "AWS4-HMAC-SHA256 Credential=" + accessKeyId + "/" + date + "/us-east-1/kinesis/aws4_request, SignedHeaders=host;x-amz-date, Signature=" + (calculateSignature payload)
 
 let provide' () = 
-
-    let url = "https://kinesis.us-east-1.amazonaws.com/"
-    let body = 
-        """
-        {"StreamName": "SlotMachineProducerStream","Data": "XzxkYXRhPl8x","PartitionKey": "partition0"}
-        """
+    //let url = "https://kinesis.us-east-1.amazonaws.com/arn:aws:kinesis:us-east-1:567027596203:SlotMachineProducerStream"
+    let url = "https://" + host
+    let body = """{"StreamName": "SlotMachineProducerStream","Data": "XzxkYXRhPl8x","PartitionKey": "partition0"}"""
     let bodyBytes = Encoding.ASCII.GetBytes body
 
     let headers = [
-        ("Host","kinesis.us-east-1.amazonaws.com")
+        ("Host", host)
         ("Content-Type","application/x-amz-json-1.1")
         ("User-Agent","Amazon Kinesis")
-        //("Content-Length", (int64 (Array.length bodyBytes)).ToString())
-        //("Connection","Keep-Alive")
+//        ("Content-Length", (int64 (Array.length bodyBytes)).ToString())
+//        ("Connection","Keep-Alive")
         ("X-Amz-Target","Kinesis_20131202.PutRecord")
-        ("x-amz-Date","20150904T090000Z")
-        ("Authentication", sigInfo body)
+        ("X-Amz-Date", datetime)
+        ("Authorization", sigInfo body)
         ]
     let response = Http.RequestStream (url, httpMethod = "POST", body = (TextRequest body), headers = headers)
     let x = response.Headers
@@ -104,6 +109,7 @@ let provide' () =
 //    req.Headers.Add ("X-Amz-Target", "Kinesis_20131202.PutRecord")
 //
 //    printfn "headers %A" req.Headers.AllKeys
+//    printfn "Authentication info %A" (req.Headers.Get "Authentication")
 //    printfn "host %A" req.Host
 //
 //    let reqStream = req.GetRequestStream ()
@@ -118,5 +124,6 @@ let provide' () =
 //                printfn "web exception %A" ex.Message
 //                ex.Response
 //    let stream = resp.GetResponseStream ()
+
     let reader = new StreamReader (stream)
     reader.ReadToEnd ()
