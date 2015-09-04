@@ -21,7 +21,7 @@ let createCanonicalRequest (payload:string) =
     let hexPayload = bytesToHexStr hashedPayload
     let lowerCasePayload = hexPayload.ToLower ()
 
-    let canonicalRequest :string = "POST" + "\n" + "/" + "\n" + "" + "\n" + "host:kinesis.us-east-1.amazonaws.com\nx-amz-date:20150903T120000Z" + "\n" + "host;x-amz-date" + "\n"
+    let canonicalRequest :string = "POST" + "\n" + "/" + "\n" + "" + "\n" + "host:kinesis.us-east-1.amazonaws.com\nx-amz-date:20150903T120000Z\n" + "\n" + "host;x-amz-date" + "\n"
     let request = canonicalRequest + lowerCasePayload
     let hashedRequest = hasher.ComputeHash(Encoding.ASCII.GetBytes request)
     let hexRequest = bytesToHexStr hashedRequest
@@ -69,7 +69,7 @@ let provide' () =
     req.Host <- "kinesis.us-east-1.amazonaws.com"
     req.ContentType <- "application/x-amz-json-1.1"
     req.ContentLength <- int64 (Array.length bodyBytes)
-    req.UserAgent <- ""
+    req.UserAgent <- "Amazon Kinesis"
 
     //authentication header
     let auth = sigInfo body
@@ -86,6 +86,7 @@ let provide' () =
     req.Headers.Add ("X-Amz-Target", "Kinesis_20131202.PutRecord")
 
     printfn "headers %A" req.Headers.AllKeys
+    printfn "host %A" req.Host
 
     let reqStream = req.GetRequestStream ()
     reqStream.Write (bodyBytes, 0, Array.length bodyBytes)
