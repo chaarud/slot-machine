@@ -30,9 +30,7 @@ let createCanonicalRequest (payload:string) =
 
 let createStringToSign payload =
     let hashedCanonical = createCanonicalRequest payload
-    let toSign = "AWS4-HMAC-SHA256" + "\n" + "20150903T120000Z" + "\n" + "20150903/us-east-1/kinesis/aws4_request" + "\n" + hashedCanonical
-    printfn "String to sign %A" toSign
-    toSign
+    "AWS4-HMAC-SHA256" + "\n" + "20150903T120000Z" + "\n" + "20150903/us-east-1/kinesis/aws4_request" + "\n" + hashedCanonical
 
 let keySign (hmac:Security.Cryptography.HMAC) (data:string) (key:byte array) = 
     hmac.Key <- key
@@ -71,17 +69,22 @@ let provide' () =
     req.Host <- "kinesis.us-east-1.amazonaws.com"
     req.ContentType <- "application/x-amz-json-1.1"
     req.ContentLength <- int64 (Array.length bodyBytes)
-    //req.Connection <- "Keep-Alive X-Amz-Target: Kinesis_20131202.PutRecord"
     req.UserAgent <- ""
-    //may need date. If so, add to sign canonical headers and header names?
-    //req.Date <- date //req.x-amz-Date <- ""
-    //req.PreAuthenticate <- true
+
+    //authentication header
     let auth = sigInfo body
     printfn "here's the final auth %A" auth
-    //does this need to be a base 64 string?
     req.Headers.Add ("Authentication", auth)
+
+    //x-amz-Date header
     req.Headers.Add ("X-Amz-Date", "20150903T120000Z")
-    req.Headers.Add ("Connection", "Keep-Alive X-Amz-Target: Kinesis_20131202.PutRecord")
+
+    //connection header?
+    req.KeepAlive <- true
+//    req.Connection <- "Keep-Alive" // X-Amz-Target: Kinesis_20131202.PutRecord"
+//    req.Headers.Add ("Connection", "Keep-Alive X-Amz-Target: Kinesis_20131202.PutRecord")
+    req.Headers.Add ("X-Amz-Target", "Kinesis_20131202.PutRecord")
+
     printfn "headers %A" req.Headers.AllKeys
 
     let reqStream = req.GetRequestStream ()
