@@ -43,6 +43,9 @@
     <Reference Include="Zlib.Portable">
       <HintPath>..\packages\Zlib.Portable\lib\portable-net4+sl5+wp8+win8+wpa81+MonoTouch+MonoAndroid\Zlib.Portable.dll</HintPath>
     </Reference>
+    <Reference Include="FSharp.Data">
+      <HintPath>..\packages\FSharp.Data\lib\net40\FSharp.Data.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -134,7 +137,6 @@
   <ItemGroup>
     <Reference Include="websocket-sharp">
       <HintPath>..\packages\websocket-sharp-BeyondGames\lib\websocket-sharp.dll</HintPath>
-      <Private>True</Private>
       <Paket>True</Paket>
     </Reference>
   </ItemGroup>
