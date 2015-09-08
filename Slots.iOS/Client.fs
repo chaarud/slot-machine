@@ -5,6 +5,8 @@ open Metric
 
 open UIKit
 
+open System
+
 open Nessos.FsPickler
 open WebSocketSharp
 
@@ -22,8 +24,8 @@ type Client (server : Server.Server, id : Id) =
         ws.Connect ()
 
     member self.SendMetric (metric : Metric) = 
-        let tuple = id, metric
-        let pickle = pickler.Pickle<Id*Metric> (tuple)
+        let info = id, DateTime.UtcNow, metric
+        let pickle = pickler.Pickle<Id*DateTime*Metric> (info)
         printfn "about to send"
         ws.Send pickle //SendAsync vs Send
 
@@ -54,6 +56,7 @@ type Client (server : Server.Server, id : Id) =
 
     member self.GameOver id (account:Account) = 
         self.SendMetric <| GameEnded
+        //how do we solve the problem of the websocket closing before the final event is sent off?
         Async.RunSynchronously <| Async.Sleep 10000
         printfn "Player has decided to stop playing"
         let empty = self.DoTransaction account (id, EndGame)
