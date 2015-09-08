@@ -15,7 +15,10 @@ type KinesisService () =
     let pickler = FsPickler.CreateBinarySerializer ()
 
     override self.OnMessage (e:MessageEventArgs) = 
-        ignore <| provide e.RawData
+        let publisher = kinesisPublisher
+        publisher.createPutRecordRequest (StreamName "SlotMachineProducerStream") (PartitionKey "partition0") e.RawData
+        |> publisher.publish
+        |> ignore
     
 let startListening () = 
     let wsServer = new WebSocketServer("ws://localhost:55555")

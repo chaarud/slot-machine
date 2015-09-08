@@ -7,6 +7,9 @@ open Server
 open Metric
 open KinesisProvider
 
+open System.Security
+open System.Text
+
 open UIKit
 open Foundation
 
