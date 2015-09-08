@@ -44,7 +44,7 @@ type AppDelegate () =
             }
 
         let parallelClients = 
-            List.init 1 generator
+            List.init 4 generator
             |> Async.Parallel
             |> Async.RunSynchronously
 

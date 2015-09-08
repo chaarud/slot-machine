@@ -26,7 +26,6 @@ type Client (server : Server.Server, id : Id) =
     member self.SendMetric (metric : Metric) = 
         let info = id, DateTime.UtcNow, metric
         let pickle = pickler.Pickle<Id*DateTime*Metric> (info)
-        printfn "about to send"
         ws.Send pickle //SendAsync vs Send
 
     member self.Run initialFunds buyIn =

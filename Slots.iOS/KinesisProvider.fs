@@ -37,17 +37,17 @@ type Publisher =
 
 let host = "kinesis.us-east-1.amazonaws.com"
 
+let date (dt:DateTime) = 
+    String.Format("{0:yyyyMMdd}", dt)
+
 let datetime (dt:DateTime) = 
-    let date = String.Format("{0:yyyyMMdd}", dt)
+    let date = date dt
     let time = String.Format("{0:HHmmss}", dt)
     date + "T" + time + "Z"
 
-let date (dt:System.DateTime) = 
-    String.Format("{0:yyyyMMdd}", dt)
-
 let bytesToHexStr (bytes:byte array) =
     bytes
-    |> Array.map (fun (x:byte) -> String.Format("{0:X2}", x))
+    |> Array.map (fun b -> String.Format("{0:X2}", b))
     |> String.concat String.Empty
 
 let createCanonicalRequest (payload:string) datetime =
