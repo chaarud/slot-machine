@@ -2,6 +2,7 @@ source https://nuget.org/api/v2
 source http://nuget.beyondgames.io/nuget
 
 nuget AWSSDK
+nuget AWSSDK.Kinesis
 nuget FAKE
 nuget FSharp.Configuration
 nuget FSharp.Data

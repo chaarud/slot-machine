@@ -2,6 +2,7 @@
 
 open Account
 open Metric
+open KinesisProvider
 
 open FSharp.Data
 open Nessos.FsPickler
@@ -14,8 +15,10 @@ type KinesisService () =
     let pickler = FsPickler.CreateBinarySerializer ()
 
     override self.OnMessage (e:MessageEventArgs) = 
-        printfn "Listener should push to Kinesis at this point"
-        //ignore <| kinesisProvider.provide e.RawData kinesisClient
+        let publisher = kinesisPublisher
+        publisher.createPutRecordRequest (StreamName "SlotMachineProducerStream") (PartitionKey "partition0") e.RawData
+        |> publisher.publish
+        |> ignore
     
 let startListening () = 
     let wsServer = new WebSocketServer("ws://localhost:55555")
