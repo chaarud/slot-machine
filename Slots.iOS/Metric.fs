@@ -2,8 +2,12 @@
     
 open Account
 
+type OS = OS of string
+
+type Device = Device of string
+
 type Metric = 
-    | GameStarted of string
+    | GameStarted of OS*Device
     | GameEnded
-    | BuyMoneyMetric of Transaction*Account
-    | PullLeverMetric of Transaction*Account
+//    | BuyMoneyMetric of Transaction*Account
+//    | PullLeverMetric of Transaction*Account

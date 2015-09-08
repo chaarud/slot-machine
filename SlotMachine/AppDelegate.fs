@@ -5,6 +5,7 @@ open System
 open Client
 open Server
 open Metric
+open Account
 open KinesisProvider
 
 open System.Security
@@ -38,8 +39,8 @@ type AppDelegate () =
 
         let generator i = async {
             let id = idAssigner.Next (1,1000000)
-            let client = new Client (server, id)
-            ignore <| client.Run 1000 10
+            let client = new Client (server, Id id)
+            ignore <| client.Run 1000 10 
             }
 
         let parallelClients = 

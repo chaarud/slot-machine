@@ -23,9 +23,9 @@ type Server () =
         let pickle = pickler.Pickle (tuple)
         ws.Send pickle //SendAsync vs Send
 
-    member self.Initialize money buyIn = 
+    member self.Initialize id money buyIn = 
         match money > buyIn with
-        | true -> { money = Some money; buyIn = Some buyIn}
+        | true -> { id = id; money = Some money; buyIn = Some buyIn}
         | false -> 
             printfn "Your account does not have enough money to start a new session"
             emptyAccount
@@ -34,11 +34,11 @@ type Server () =
         match transaction with
         | PullLever -> 
             let newAcct = self.DoPullLever account
-            self.SendMetric id (PullLeverMetric (transaction, newAcct))
+            //self.SendMetric id (PullLeverMetric (transaction, newAcct))
             newAcct
         | BuyMoney -> 
             let newAcct = self.DoBuyMoney account
-            self.SendMetric id (BuyMoneyMetric (transaction, newAcct))
+            //self.SendMetric id (BuyMoneyMetric (transaction, newAcct))
             newAcct
         | EndGame ->
             printfn "Server reports that a client %A ended a game" id
@@ -56,9 +56,9 @@ type Server () =
                 let payout = buyIn * 10
                 match r1 = r2 with
                 | true -> 
-                    { money = Some <| payout+currentMoney; buyIn = Some buyIn}
+                    { id = account.id; money = Some <| payout+currentMoney; buyIn = Some buyIn}
                 | false ->
-                    { money = Some <| currentMoney-buyIn; buyIn = Some buyIn}
+                    { id = account.id; money = Some <| currentMoney-buyIn; buyIn = Some buyIn}
             | _, _ -> 
                 printfn "Your account does not have money or buyIn information"
                 emptyAccount
@@ -71,7 +71,7 @@ type Server () =
         let currentMoney = money account
         match buyIn, currentMoney with
         | Some buyIn, Some currentMoney ->
-            { money = Some <| currentMoney + 1000; buyIn = Some buyIn}
+            { id = account.id; money = Some <| currentMoney + 1000; buyIn = Some buyIn}
         | _, _ ->
             printfn "Your account does not have money or buyIn information"
             emptyAccount
