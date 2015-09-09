@@ -14,8 +14,19 @@ type Client (server : Server.Server, id : Id) =
 
     let pickler = FsPickler.CreateBinarySerializer ()
 
-    let os = OS (UIDevice.CurrentDevice.SystemName + " " + UIDevice.CurrentDevice.SystemVersion)
-    let device = Device UIDevice.CurrentDevice.Model
+    let oss = List.map OS ["iOS"; "Android"; "Tizen"]
+    let devices = List.map Device ["iPhone 4"; "iPad"; "iPhone 5"]
+    let countries = List.map Country ["USA"; "El Salvador"; "North Korea"]
+
+    let rnd = new System.Random()
+
+//    let os = OS (UIDevice.CurrentDevice.SystemName + " " + UIDevice.CurrentDevice.SystemVersion)
+//    let device = Device UIDevice.CurrentDevice.Model
+//    let country = Country (Foundation.NSLocale.CurrentLocale.GetCountryCodeDisplayName(Foundation.NSLocale.CurrentLocale.CountryCode))
+
+    let os = List.nth oss (rnd.Next(oss.Length))
+    let device = List.nth devices (rnd.Next(oss.Length))
+    let country = List.nth countries (rnd.Next(oss.Length))
 
     let ws = new WebSocket("ws://localhost:55555/KinesisService")
     do 
@@ -47,7 +58,7 @@ type Client (server : Server.Server, id : Id) =
             |> self.GameLoop (i+1)
 
     member self.StartGame id money buyIn = 
-        self.SendMetric <| GameStarted (os, device)
+        self.SendMetric <| GameStarted (os, device, country)
         server.Initialize id money buyIn
 
     member self.DoTransaction (account : Account) (id, trx) = 

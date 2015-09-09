@@ -44,22 +44,11 @@ type AppDelegate () =
             }
 
         let parallelClients = 
-            List.init 4 generator
+            List.init 1 generator
             |> Async.Parallel
             |> Async.RunSynchronously
 
         Async.RunSynchronously <| Async.Sleep 5000
-
-//    ================================================
-
-//        let mutable i = 0
-//        while i < 300 do
-//            ignore <| provide (Text.Encoding.ASCII.GetBytes "testdatas")
-//            printfn "%A" i
-//            Async.RunSynchronously <| Async.Sleep 1000
-//            i <- i+1
-//        printfn "done"
-//        Async.RunSynchronously <| Async.Sleep 1000
 
 //    ================================================
 
