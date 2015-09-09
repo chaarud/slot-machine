@@ -37,17 +37,23 @@ type Publisher =
 
 let host = "kinesis.us-east-1.amazonaws.com"
 
+let config = IO.File.ReadAllText (Path.Combine (Foundation.NSBundle.MainBundle.BundlePath, "cfg.json"))
+type jsonProvider = FSharp.Data.JsonProvider<"""{"access_key_id":"example","secret_access_key":"example"}""">
+let configJson = jsonProvider.Parse(config)
+let aws_id = configJson.AccessKeyId
+let aws_secret = configJson.SecretAccessKey
+
+let date (dt:DateTime) = 
+    String.Format("{0:yyyyMMdd}", dt)
+
 let datetime (dt:DateTime) = 
-    let date = String.Format("{0:yyyyMMdd}", dt)
+    let date = date dt
     let time = String.Format("{0:HHmmss}", dt)
     date + "T" + time + "Z"
 
-let date (dt:System.DateTime) = 
-    String.Format("{0:yyyyMMdd}", dt)
-
 let bytesToHexStr (bytes:byte array) =
     bytes
-    |> Array.map (fun (x:byte) -> String.Format("{0:X2}", x))
+    |> Array.map (fun b -> String.Format("{0:X2}", b))
     |> String.concat String.Empty
 
 let createCanonicalRequest (payload:string) datetime =
@@ -56,7 +62,7 @@ let createCanonicalRequest (payload:string) datetime =
         hasher.ComputeHash(Encoding.ASCII.GetBytes payload)
         |> bytesToHexStr
 
-    let canonicalRequest = "POST" + "\n" + "/" + "\n" + "" + "\n" + "host:" + host + "\nx-amz-date:" + datetime + "\n" + "\n" + "host;x-amz-date" + "\n"
+    let canonicalRequest = String.concat "\n" ["POST"; "/"; ""; "host:" + host + "\nx-amz-date:" + datetime + "\n"; "host;x-amz-date" + "\n"]
     let request = canonicalRequest + hexPayloadHash.ToLower()
     let hexRequest = 
         hasher.ComputeHash(Encoding.ASCII.GetBytes request)
@@ -75,7 +81,7 @@ let calculateSignature payload datetime date =
     let signer = keySign <| Security.Cryptography.KeyedHashAlgorithm.Create("HmacSHA256")
     let signers = List.map signer [date; "us-east-1"; "kinesis"; "aws4_request"; (createStringToSign payload datetime date)]
     let hexSig = 
-        IO.File.ReadAllText "/Users/chaaru/slot-machine/Slots.iOS/secret_access_key.config"
+        aws_secret
         |> (+) "AWS4"
         |> Encoding.UTF8.GetBytes
         |> List.reduce (>>) signers
@@ -83,8 +89,7 @@ let calculateSignature payload datetime date =
     hexSig.ToLower ()
 
 let sigInfo payload datetime date = 
-    let accessKeyId = IO.File.ReadAllText "/Users/chaaru/slot-machine/Slots.iOS/access_key_id.config"
-    "AWS4-HMAC-SHA256 Credential=" + accessKeyId + "/" + date + "/us-east-1/kinesis/aws4_request, SignedHeaders=host;x-amz-date, Signature=" + (calculateSignature payload datetime date)
+    "AWS4-HMAC-SHA256 Credential=" + aws_id + "/" + date + "/us-east-1/kinesis/aws4_request, SignedHeaders=host;x-amz-date, Signature=" + (calculateSignature payload datetime date)
 
 let kinesisCreatePutRecordRequest (StreamName stream) (PartitionKey partition) data = 
     let now = System.DateTime.UtcNow
@@ -101,9 +106,7 @@ let kinesisCreatePutRecordRequest (StreamName stream) (PartitionKey partition) d
         ("X-Amz-Date", datetime)
         ("Authorization", sigInfo body datetime date)
         ]
-//    Http.RequestStream (url, httpMethod = "POST", body = (TextRequest body), headers = headers)
-    let request () = Http.AsyncRequestStream (url, httpMethod = "POST", body = (TextRequest body), headers = headers)
-    request
+    fun () -> Http.AsyncRequestStream (url, httpMethod = "POST", body = (TextRequest body), headers = headers)
 
 let kinesisPublishAsync (request : Request) =
     async {

@@ -5,6 +5,7 @@ open System
 open Client
 open Server
 open Metric
+open Account
 open KinesisProvider
 
 open System.Security
@@ -38,8 +39,8 @@ type AppDelegate () =
 
         let generator i = async {
             let id = idAssigner.Next (1,1000000)
-            let client = new Client (server, id)
-            ignore <| client.Run 1000 10
+            let client = new Client (server, Id id)
+            ignore <| client.Run 1000 10 
             }
 
         let parallelClients = 
@@ -48,17 +49,6 @@ type AppDelegate () =
             |> Async.RunSynchronously
 
         Async.RunSynchronously <| Async.Sleep 5000
-
-//    ================================================
-
-//        let mutable i = 0
-//        while i < 300 do
-//            ignore <| provide (Text.Encoding.ASCII.GetBytes "testdatas")
-//            printfn "%A" i
-//            Async.RunSynchronously <| Async.Sleep 1000
-//            i <- i+1
-//        printfn "done"
-//        Async.RunSynchronously <| Async.Sleep 1000
 
 //    ================================================
 

@@ -53,8 +53,6 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.FSharp.targets" />
   <ItemGroup>
     <None Include="paket.references" />
-    <None Include="access_key_id.config" />
-    <None Include="secret_access_key.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />

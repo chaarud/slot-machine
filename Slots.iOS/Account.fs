@@ -1,15 +1,19 @@
 ﻿module Account 
 
+    type Id = Id of int
+        
     type Transaction = 
         | PullLever
         | BuyMoney
         | EndGame
 
     type Account = {
+        id : Id
         money : int Option
         buyIn : int Option } 
 
     let emptyAccount = { 
+        id = Id 0
         money = None
         buyIn = None }
 

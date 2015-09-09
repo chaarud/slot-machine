@@ -3,14 +3,30 @@
 open Account
 open Metric
 
+open UIKit
+
+open System
+
 open Nessos.FsPickler
 open WebSocketSharp
 
-type Client (server : Server.Server, id : int) = 
+type Client (server : Server.Server, id : Id) = 
 
     let pickler = FsPickler.CreateBinarySerializer ()
 
-    let platform = "Android"
+    let oss = List.map OS ["iOS"; "Android"; "Tizen"]
+    let devices = List.map Device ["iPhone 4"; "iPad"; "iPhone 5"]
+    let countries = List.map Country ["USA"; "El Salvador"; "North Korea"]
+
+    let rnd = new System.Random()
+
+//    let os = OS (UIDevice.CurrentDevice.SystemName + " " + UIDevice.CurrentDevice.SystemVersion)
+//    let device = Device UIDevice.CurrentDevice.Model
+//    let country = Country (Foundation.NSLocale.CurrentLocale.GetCountryCodeDisplayName(Foundation.NSLocale.CurrentLocale.CountryCode))
+
+    let os = List.nth oss (rnd.Next(oss.Length))
+    let device = List.nth devices (rnd.Next(oss.Length))
+    let country = List.nth countries (rnd.Next(oss.Length))
 
     let ws = new WebSocket("ws://localhost:55555/KinesisService")
     do 
@@ -19,16 +35,15 @@ type Client (server : Server.Server, id : int) =
         ws.Connect ()
 
     member self.SendMetric (metric : Metric) = 
-        let tuple = id, metric
-        let pickle = pickler.Pickle (tuple)
+        let info = id, DateTime.UtcNow, metric
+        let pickle = pickler.Pickle<Id*DateTime*Metric> (info)
         ws.Send pickle //SendAsync vs Send
 
     member self.Run initialFunds buyIn =
-        self.SendMetric (GameStarted platform)
-        self.StartGame initialFunds buyIn
+        self.StartGame id initialFunds buyIn
         |> self.GameLoop 0
 
-    member self.GameLoop i account =
+    member self.GameLoop i (account:Account) =
         Async.RunSynchronously <| Async.Sleep 5
         match i >= 10 with
         | true -> 
@@ -42,14 +57,17 @@ type Client (server : Server.Server, id : int) =
             |> self.DoTransaction account
             |> self.GameLoop (i+1)
 
-    member self.StartGame money buyIn = 
-        server.Initialize money buyIn
+    member self.StartGame id money buyIn = 
+        self.SendMetric <| GameStarted (os, device, country)
+        server.Initialize id money buyIn
 
     member self.DoTransaction (account : Account) (id, trx) = 
         server.Transaction account (id,trx)
 
-    member self.GameOver id account = 
-        self.SendMetric GameEnded
+    member self.GameOver id (account:Account) = 
+        self.SendMetric <| GameEnded
+        //how do we solve the problem of the websocket closing before the final event is sent off?
+        Async.RunSynchronously <| Async.Sleep 10000
         printfn "Player has decided to stop playing"
         let empty = self.DoTransaction account (id, EndGame)
         ws.Close ()

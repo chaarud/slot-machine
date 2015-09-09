@@ -16,7 +16,7 @@ type KinesisService () =
 
     override self.OnMessage (e:MessageEventArgs) = 
         let publisher = kinesisPublisher
-        publisher.createPutRecordRequest (StreamName "SlotMachineProducerStream") (PartitionKey "partition0") e.RawData
+        publisher.createPutRecordRequest (StreamName "Slots") (PartitionKey "partition0") e.RawData
         |> publisher.publish
         |> ignore
     
