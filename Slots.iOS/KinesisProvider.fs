@@ -37,7 +37,7 @@ type Publisher =
 
 let host = "kinesis.us-east-1.amazonaws.com"
 
-let config = IO.File.ReadAllText "/Users/chaaru/slot-machine/Slots.iOS/cfg.json"
+let config = IO.File.ReadAllText (Path.Combine (Foundation.NSBundle.MainBundle.BundlePath, "cfg.json"))
 type jsonProvider = FSharp.Data.JsonProvider<"""{"access_key_id":"example","secret_access_key":"example"}""">
 let configJson = jsonProvider.Parse(config)
 let aws_id = configJson.AccessKeyId
