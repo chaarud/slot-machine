@@ -38,18 +38,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <None Include="aws_id.config" />
+    <None Include="aws_secret.config" />
+    <Compile Include="Account.fs" />
+    <Compile Include="Metric.fs" />
     <Compile Include="KinesisConsumer.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.1\Framework\v4.0\Microsoft.FSharp.Targets" />
   <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Slots\Slots.NET.fsproj">
-      <Project>{9280E422-874B-4992-A531-A0ED9DBC79E5}</Project>
-      <Name>Slots.NET</Name>
-    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETCore'">
