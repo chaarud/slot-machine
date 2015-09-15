@@ -4,6 +4,9 @@ open FSharp.Configuration
 open Nessos.FsPickler
 
 open Metric
+open Account
+
+open System
 
 open Amazon.Kinesis.Model
 open Amazon.Kinesis
@@ -14,14 +17,14 @@ type Settings = AppSettings<"app.config">
 type KinesisConsumer () = 
 
     member self.createClient () = 
-        let awsAccessKeyId = "FILL_IN"//Settings.AwsAccessKeyId
-        let awsSecretAccessKey = "FILL_IN"//Settings.AwsSecretAccessKey
+        let awsAccessKeyId = IO.File.ReadAllText "/Users/chaaru/slot-machine/Consumer/aws_id.config"
+        let awsSecretAccessKey = IO.File.ReadAllText "/Users/chaaru/slot-machine/Consumer/aws_secret.config"
         let region = RegionEndpoint.USEast1
         new AmazonKinesisClient (awsAccessKeyId, awsSecretAccessKey, region)
 
     member self.getShardId (client : AmazonKinesisClient) = 
         let describeStreamRequest = new DescribeStreamRequest ()
-        describeStreamRequest.StreamName <- "SlotMachineConsumerTest3"
+        describeStreamRequest.StreamName <- "Slots"
 //        might need a while loop because describestreams may not get all the shards
 //        http://docs.aws.amazon.com/kinesis/latest/dev/kinesis-using-sdk-java-retrieve-shards.html
 //        Alternatively, use KCL
@@ -37,7 +40,7 @@ type KinesisConsumer () =
 
     member self.getShardIterator (client : AmazonKinesisClient, shardId) = 
         let shardIteratorRequest = new GetShardIteratorRequest ()
-        shardIteratorRequest.StreamName <- "SlotMachineConsumerTest3"
+        shardIteratorRequest.StreamName <- "Slots"
         shardIteratorRequest.ShardId <- shardId
         shardIteratorRequest.ShardIteratorType <- new ShardIteratorType ("TRIM_HORIZON") //TRIM_HORIZON vs LATEST
         let shardIteratorResponse : GetShardIteratorResponse = client.GetShardIterator (shardIteratorRequest)
@@ -58,7 +61,7 @@ type KinesisConsumer () =
             let data = dataStream.ToArray ()
             //deal with bad data in the stream
             let pickler = FsPickler.CreateBinarySerializer ()
-            let unPickledData = pickler.UnPickle<int*Metric> data
+            let unPickledData = pickler.UnPickle<Id*DateTime*Metric> data
             printfn "data gotten from Kinesis: %A" unPickledData
         | false -> 
             printfn "records had nothing in them"
