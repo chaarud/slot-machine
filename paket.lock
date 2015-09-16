@@ -6,10 +6,10 @@ NUGET
     FSharp.Core (4.0.0.1)
     FSharp.Data (2.2.5)
       Zlib.Portable (>= 1.10.0) - framework: portable-net40+sl50+wp80+win80
-    fszmq (12.1.1)
-      FSharp.Core
     Zlib.Portable (1.11.0) - framework: portable-net40+sl50+wp80+win80
   remote: http://nuget.beyondgames.io/nuget
   specs:
     FsPickler-BeyondGames (3.0.0)
+    fszmq-BeyondGames (3.2.0)
+      FSharp.Core
     websocket-sharp-BeyondGames (1.0.0)

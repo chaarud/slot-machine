@@ -5,5 +5,5 @@ nuget FAKE
 nuget FSharp.Configuration
 nuget FSharp.Data
 nuget FsPickler-BeyondGames
-nuget fszmq
+nuget fszmq-BeyondGames
 nuget websocket-sharp-BeyondGames
