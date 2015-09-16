@@ -5,7 +5,6 @@ open Metric
 
 open Nessos.FsPickler
 open WebSocketSharp
-//open WebSocketSharp.Server
 
 open fszmq
 
@@ -20,17 +19,11 @@ type Server () =
         listenerWS.OnOpen.Add (fun _ -> printfn "Slot Server's WebSocket opened")
         listenerWS.OnClose.Add (fun _ -> printfn "Slot Server's WebSocket closed")
         listenerWS.Connect ()
-        printfn "server connected successfully to listener..."
 
     member self.Run () =
-        printfn "starting server zmq setup"
         let context = new Context ()
-        printfn "created server context"
         let server = Context.rep context
-        printfn "attempting zmq connection"
-        ///Socket.connect server "tcp://localhost:5560"
         Socket.bind server "tcp://*:5555"
-        printfn "server inside run method, entering listening while loop"
         while true do
             let request = Socket.recv server
             let (account, (id, trx)) = pickler.UnPickle<Account*(Id*Transaction)> request
