@@ -5,6 +5,9 @@ open Metric
 
 open Nessos.FsPickler
 open WebSocketSharp
+//open WebSocketSharp.Server
+
+open fszmq
 
 type Server () = 
 
@@ -12,26 +15,52 @@ type Server () =
 
     let pickler = FsPickler.CreateBinarySerializer ()
 
-    let ws = new WebSocket("ws://localhost:55555/KinesisService")
+    let listenerWS = new WebSocket("ws://localhost:55555/KinesisService")
     do 
-        ws.OnOpen.Add (fun _ -> printfn "Slot Server's WebSocket opened")
-        ws.OnClose.Add (fun _ -> printfn "Slot Server's WebSocket closed")
-        ws.Connect ()
+        listenerWS.OnOpen.Add (fun _ -> printfn "Slot Server's WebSocket opened")
+        listenerWS.OnClose.Add (fun _ -> printfn "Slot Server's WebSocket closed")
+        listenerWS.Connect ()
+        printfn "server connected successfully to listener..."
+
+    member self.Run () =
+        printfn "starting server zmq setup"
+        let context = new Context ()
+        printfn "created server context"
+        let server = Context.rep context
+        printfn "attempting zmq connection"
+        ///Socket.connect server "tcp://localhost:5560"
+        Socket.bind server "tcp://*:5560"
+        printfn "server inside run method, entering listening while loop"
+        while true do
+            let request = Socket.recv server
+            let (account, (id, trx)) = pickler.UnPickle<Account*(Id*Transaction)> request
+            let newAcct = self.Transaction account (id, trx)
+            Async.RunSynchronously <| Async.Sleep 1000
+            let pickle = pickler.Pickle<Account> newAcct
+            Socket.send server pickle
 
     member self.SendMetric id (metric : Metric) = 
         let tuple = id, metric
         let pickle = pickler.Pickle (tuple)
-        ws.Send pickle //SendAsync vs Send
+        listenerWS.Send pickle //SendAsync vs Send
 
-    member self.Initialize id money buyIn = 
-        match money > buyIn with
-        | true -> { id = id; money = Some money; buyIn = Some buyIn}
-        | false -> 
-            printfn "Your account does not have enough money to start a new session"
-            emptyAccount
+    member self.DoInitialize id account = 
+        let m = money account
+        let b = buyIn account
+        match m, b with
+        | Some money, Some buyIn ->
+            match money > buyIn with
+            | true -> {id = id; money = Some money; buyIn = Some buyIn}
+            | false -> 
+                printfn "Your account does not have enough money to start a new session"
+                emptyAccount
+        | _ -> emptyAccount
 
     member self.Transaction account (id, transaction) =
         match transaction with
+        | Initialize ->
+            let newAcct = self.DoInitialize id account
+            newAcct
         | PullLever -> 
             let newAcct = self.DoPullLever account
             //self.SendMetric id (PullLeverMetric (transaction, newAcct))

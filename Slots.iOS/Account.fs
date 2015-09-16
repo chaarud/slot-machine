@@ -3,6 +3,7 @@
     type Id = Id of int
         
     type Transaction = 
+        | Initialize
         | PullLever
         | BuyMoney
         | EndGame

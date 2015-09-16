@@ -5,6 +5,8 @@ Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "SlotsApp.iOS", "SlotMachine
 EndProject
 Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "Slots.iOS", "Slots.iOS\Slots.iOS.fsproj", "{574E9D43-7965-4832-9F0D-F971F54DB492}"
 EndProject
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "Slots.NET", "Slots.NET\Slots.NET.fsproj", "{8756375D-4164-4AFC-88D3-E2E657252A32}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -39,5 +41,17 @@ Global
 		{574E9D43-7965-4832-9F0D-F971F54DB492}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{574E9D43-7965-4832-9F0D-F971F54DB492}.Release|x86.ActiveCfg = Release|Any CPU
 		{574E9D43-7965-4832-9F0D-F971F54DB492}.Release|x86.Build.0 = Release|Any CPU
+		{8756375D-4164-4AFC-88D3-E2E657252A32}.Debug|iPhone.ActiveCfg = Debug|x86
+		{8756375D-4164-4AFC-88D3-E2E657252A32}.Debug|iPhone.Build.0 = Debug|x86
+		{8756375D-4164-4AFC-88D3-E2E657252A32}.Debug|iPhoneSimulator.ActiveCfg = Debug|x86
+		{8756375D-4164-4AFC-88D3-E2E657252A32}.Debug|iPhoneSimulator.Build.0 = Debug|x86
+		{8756375D-4164-4AFC-88D3-E2E657252A32}.Debug|x86.ActiveCfg = Debug|x86
+		{8756375D-4164-4AFC-88D3-E2E657252A32}.Debug|x86.Build.0 = Debug|x86
+		{8756375D-4164-4AFC-88D3-E2E657252A32}.Release|iPhone.ActiveCfg = Release|x86
+		{8756375D-4164-4AFC-88D3-E2E657252A32}.Release|iPhone.Build.0 = Release|x86
+		{8756375D-4164-4AFC-88D3-E2E657252A32}.Release|iPhoneSimulator.ActiveCfg = Release|x86
+		{8756375D-4164-4AFC-88D3-E2E657252A32}.Release|iPhoneSimulator.Build.0 = Release|x86
+		{8756375D-4164-4AFC-88D3-E2E657252A32}.Release|x86.ActiveCfg = Release|x86
+		{8756375D-4164-4AFC-88D3-E2E657252A32}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 EndGlobal
