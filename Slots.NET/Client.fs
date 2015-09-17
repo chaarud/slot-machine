@@ -37,51 +37,30 @@ type Client (id : Id) =
         listenerWS.OnClose.Add (fun _ -> printfn "Client's WebSocket to Listener closed")
         listenerWS.Connect ()
 
-//    let context = new Context ()
-//    let client = Context.req context
-//    do Socket.connect client "tcp://localhost:5555"
-//    do ignore <| this.DoTransaction emptyAccount (Id 5, Initialize)
-
     member self.DoTransaction (account : Account) (id, trx) :Account = 
-//        do we have to set up a new Socket for every transaction? 
-//        use context = new Context ()
-//        use client = Context.req context
-//        Socket.connect client "tcp://localhost:5555"
-//        let toPickle = (account, (id, trx))
-//        let pickle = pickler.Pickle<Account*(Id*Transaction)> (toPickle)
-//        Socket.send (client:fszmq.Socket) pickle
-//        let responseData = Socket.recv client
-//        let account = pickler.UnPickle<Account> responseData
-//        account
-
         let toPickle = (account, (id, trx))
         let pickle = pickler.Pickle<Account*(Id*Transaction)> (toPickle)
-//        let req = System.Text.Encoding.ASCII.GetString pickle
         let req = System.Convert.ToBase64String pickle
         let resp = self.Dispatch (req)
-        printfn "response gotten by client %A" resp
-//        let responseData = System.Text.Encoding.ASCII.GetBytes (resp:string)
         let responseData = System.Convert.FromBase64String resp
         let account = pickler.UnPickle<Account> responseData
         account
 
     member self.Dispatch (req : string) = 
         let url = "http://localhost:5678/" + req
-        printfn "request sent by client %A" url
         Http.RequestString (url)
 
     member self.SendMetric (metric : Metric) = 
         let info = id, DateTime.UtcNow, metric
         let pickle = pickler.Pickle<Id*DateTime*Metric> (info)
         listenerWS.Send pickle //SendAsync vs Send
-//
+
     member self.Run initialFunds buyIn =
         printfn "client running"
         self.StartGame id initialFunds buyIn
         |> self.GameLoop 0
 
     member self.GameLoop i (account:Account) =
-        printfn "%A" (money account)
         Async.RunSynchronously <| Async.Sleep 5
         match i >= 10 with
         | true -> 

@@ -48,27 +48,12 @@ type Server () =
                     ]
         startWebServer serverConfig webPart
 
-//        zmq stuff
-//        let context = new Context ()
-//        let server = Context.rep context
-//        Socket.bind server "tcp://*:5555"
-//        while true do
-//            let request = Socket.recv server
-//            let (account, (id, trx)) = pickler.UnPickle<Account*(Id*Transaction)> request
-//            let newAcct = self.Transaction account (id, trx)
-//            Async.RunSynchronously <| Async.Sleep 1000
-//            let pickle = pickler.Pickle<Account> newAcct
-//            Socket.send server pickle
-
     member self.Dispatch (req : string) = 
-        printfn "request recieved by server %s" req
-//        let request = System.Text.Encoding.ASCII.GetBytes req
         let request = System.Convert.FromBase64String req
         let (account, (id, trx)) = pickler.UnPickle<Account*(Id*Transaction)> request
         let newAcct = self.Transaction account (id, trx)
         Async.RunSynchronously <| Async.Sleep 1000
         let pickle = pickler.Pickle<Account> newAcct
-//        System.Text.Encoding.ASCII.GetString pickle
         System.Convert.ToBase64String pickle
 
     member self.SendMetric id (metric : Metric) = 
