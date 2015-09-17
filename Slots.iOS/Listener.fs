@@ -20,7 +20,7 @@ type KinesisService () =
         publisher.createPutRecordRequest (StreamName "Slots") (PartitionKey "partition0") e.RawData
         |> publisher.publish
         |> ignore
-
+    
 type SendJSON () = 
     inherit WebSocketBehavior ()
     override self.OnMessage (e: MessageEventArgs) = 

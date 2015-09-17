@@ -6,27 +6,16 @@ open Newtonsoft.Json
 open Nessos.FsPickler
 open WebSocketSharp
 open System.Text
+open Publisher
 
 type Server () = 
 
     let random = new System.Random ()
 
     let pickler = FsPickler.CreateBinarySerializer ()
+    let address = "ws://localhost:55555/KinesisService"
+    let publisher = new ServerPublisher(address)
 
-    let ws = new WebSocket("ws://localhost:55555/KinesisService")
-    do 
-        ws.OnOpen.Add (fun _ -> printfn "Slot Server's WebSocket opened")
-        ws.OnClose.Add (fun _ -> printfn "Slot Server's WebSocket closed")
-        ws.Connect ()
-
-    member self.SendMetric id (metric : Metric) = ()
-//        let tuple = id, metric
-//        let pickle = pickler.Pickle (tuple)
-//        printfn "getting json server"
-//        let json = JsonConvert.SerializeObject(metric)
-//        printfn "got json server"
-//        let jsonBytes = Encoding.UTF8.GetBytes json
-//        ws.Send jsonBytes //SendAsync vs Send
 
     member self.Initialize id money buyIn = 
         match money > buyIn with
