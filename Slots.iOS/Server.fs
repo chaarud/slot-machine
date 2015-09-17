@@ -16,7 +16,6 @@ type Server () =
     let address = "ws://localhost:55555/KinesisService"
     let publisher = new ServerPublisher(address)
 
-
     member self.Initialize id money buyIn = 
         match money > buyIn with
         | true -> { id = id; money = Some money; buyIn = Some buyIn}
@@ -28,11 +27,11 @@ type Server () =
         match transaction with
         | PullLever -> 
             let newAcct = self.DoPullLever account
-            //self.SendMetric id (PullLeverMetric (transaction, newAcct))
+            //publisher.SendMetric id (PullLeverMetric (transaction, newAcct))
             newAcct
         | BuyMoney -> 
             let newAcct = self.DoBuyMoney account
-            //self.SendMetric id (BuyMoneyMetric (transaction, newAcct))
+            //publisher.SendMetric id (BuyMoneyMetric (transaction, newAcct))
             newAcct
         | EndGame ->
             printfn "Server reports that a client %A ended a game" id
