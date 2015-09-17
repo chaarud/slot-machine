@@ -8,6 +8,18 @@ open WebSocketSharp
 
 open fszmq
 
+open Suave
+open Suave.Web
+open Suave.Http
+open Suave.Types
+open Suave.Http.Successful
+open Suave.Http.Redirection
+open Suave.Http.Files
+open Suave.Http.RequestErrors
+open Suave.Http.Applicatives
+open System
+open System.IO
+
 type Server () = 
 
     let random = new System.Random ()
@@ -20,17 +32,44 @@ type Server () =
         listenerWS.OnClose.Add (fun _ -> printfn "Slot Server's WebSocket closed")
         listenerWS.Connect ()
 
+    let serverConfig =
+        let port = 5678
+        { defaultConfig with
+            homeFolder = Some __SOURCE_DIRECTORY__
+            logger = Logging.Loggers.saneDefaultsFor Logging.LogLevel.Warn
+            bindings = [ Types.HttpBinding.mk' Types.HTTP "127.0.0.1" port ] }
+
     member self.Run () =
-        let context = new Context ()
-        let server = Context.rep context
-        Socket.bind server "tcp://*:5555"
-        while true do
-            let request = Socket.recv server
-            let (account, (id, trx)) = pickler.UnPickle<Account*(Id*Transaction)> request
-            let newAcct = self.Transaction account (id, trx)
-            Async.RunSynchronously <| Async.Sleep 1000
-            let pickle = pickler.Pickle<Account> newAcct
-            Socket.send server pickle
+        let webPart :WebPart = 
+                choose
+                    [
+                        GET >>= choose 
+                            [ pathScan "/%s" (fun req -> OK (self.Dispatch(req)))]
+                    ]
+        startWebServer serverConfig webPart
+
+//        zmq stuff
+//        let context = new Context ()
+//        let server = Context.rep context
+//        Socket.bind server "tcp://*:5555"
+//        while true do
+//            let request = Socket.recv server
+//            let (account, (id, trx)) = pickler.UnPickle<Account*(Id*Transaction)> request
+//            let newAcct = self.Transaction account (id, trx)
+//            Async.RunSynchronously <| Async.Sleep 1000
+//            let pickle = pickler.Pickle<Account> newAcct
+//            Socket.send server pickle
+
+    member self.Dispatch (req : string) = 
+        printfn "request recieved by server %s" req
+//        let request = System.Text.Encoding.ASCII.GetBytes req
+        let request = System.Convert.FromBase64String req
+        let (account, (id, trx)) = pickler.UnPickle<Account*(Id*Transaction)> request
+        let newAcct = self.Transaction account (id, trx)
+        Async.RunSynchronously <| Async.Sleep 1000
+        let pickle = pickler.Pickle<Account> newAcct
+//        System.Text.Encoding.ASCII.GetString pickle
+        System.Convert.ToBase64String pickle
 
     member self.SendMetric id (metric : Metric) = 
         let tuple = id, metric
