@@ -7,35 +7,17 @@ open UIKit
 
 open System
 open System.Text
-open Newtonsoft.Json
-open Nessos.FsPickler
 open WebSocketSharp
-
+open Publisher
 type Client (server : Server.Server, id : Id) = 
 
     let oss = List.map OS ["iOS"; "Android"; "Tizen"]
     let devices = List.map Device ["iPhone 4"; "iPad"; "iPhone 5"]
     let countries = List.map Country ["USA"; "El Salvador"; "North Korea"]
-    
+    let address = "ws://localhost:55555/KinesisService"
     let rnd = new System.Random()
-
-    let makeJsonList (properties:(string * string) List) = 
-        match properties with
-        | [] -> ""
-        | _ ->
-            let json = 
-                properties
-                |> List.fold(fun acc (name, value) ->
-                    acc + "\"" + name + "\"" + ":" + "\"" + value + "\""+ ", " 
-                ) ""
-            json.Substring(0, json.Length-2)
-       
-    let makeJson playerId userProperties eventProperties = 
-        let jsonUserProperties = makeJsonList userProperties
-        let jsonEventProperties = makeJsonList eventProperties
-        sprintf """{"playerId" : %d, "eventProperties": [%s], "userProperties": [%s]}"""
-            playerId jsonEventProperties jsonUserProperties
-
+    let (Id id') = id
+    let publisher = new Publisher(address, id')
 //    let os = OS (UIDevice.CurrentDevice.SystemName + " " + UIDevice.CurrentDevice.SystemVersion)
 //    let device = Device UIDevice.CurrentDevice.Model
 //    let country = Country (Foundation.NSLocale.CurrentLocale.GetCountryCodeDisplayName(Foundation.NSLocale.CurrentLocale.CountryCode))
@@ -44,30 +26,7 @@ type Client (server : Server.Server, id : Id) =
     let device = List.nth devices (rnd.Next(oss.Length))
     let country = List.nth countries (rnd.Next(oss.Length))
 
-    let ws = new WebSocket("ws://localhost:55555/KinesisService")
-    do 
-        ws.OnOpen.Add (fun _ -> printfn "Client's WebSocket opened")
-        ws.OnClose.Add (fun _ -> printfn "Client's WebSocket closed")
-        ws.Connect ()
 
-    member self.SendMetric (metric : Metric) = 
-        let mutable json = ""
-        let (Id(id')) = id
-        printfn "serialized"
-        let unixTime() = 
-            let epoch = DateTime(1970, 1, 1) in (DateTime.Now - epoch).TotalMilliseconds |> string 
-        match metric with
-        | GameStarted (OS(os), Device(device), Country(country)) ->
-            let userProperties  = [("OS",os); ("Device",device) ; ("Country", country)]
-            let eventProperties = [("Type", "GameStarted"); ("Time", (unixTime()))]
-            json <- makeJson id' userProperties eventProperties
-
-        | GameEnded ->
-            let userProperties = []
-            let eventProperties = [("Type", "GameEnded"); ("Time", (unixTime()))]
-            json <- makeJson id' userProperties eventProperties
-        let jsonBytes = Encoding.UTF8.GetBytes json
-        ws.Send json
 
     member self.Run initialFunds buyIn =
         self.StartGame id initialFunds buyIn
@@ -88,18 +47,19 @@ type Client (server : Server.Server, id : Id) =
             |> self.GameLoop (i+1)
 
     member self.StartGame id money buyIn = 
-        self.SendMetric <| GameStarted (os, device, country)
+        publisher.Connect()
+        publisher.SendMetric <| GameStarted (os, device, country)
         server.Initialize id money buyIn
 
     member self.DoTransaction (account : Account) (id, trx) = 
         server.Transaction account (id,trx)
 
     member self.GameOver id (account:Account) = 
-        self.SendMetric <| GameEnded
+        publisher.SendMetric <| GameEnded
         //how do we solve the problem of the websocket closing before the final event is sent off?
         Async.RunSynchronously <| Async.Sleep 10000
         printfn "Player has decided to stop playing"
         let empty = self.DoTransaction account (id, EndGame)
-        ws.Close ()
+        publisher.Close ()
         empty
 
