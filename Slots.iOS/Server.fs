@@ -2,9 +2,10 @@
 
 open Account
 open Metric
-
+open Newtonsoft.Json
 open Nessos.FsPickler
 open WebSocketSharp
+open System.Text
 
 type Server () = 
 
@@ -18,10 +19,14 @@ type Server () =
         ws.OnClose.Add (fun _ -> printfn "Slot Server's WebSocket closed")
         ws.Connect ()
 
-    member self.SendMetric id (metric : Metric) = 
-        let tuple = id, metric
-        let pickle = pickler.Pickle (tuple)
-        ws.Send pickle //SendAsync vs Send
+    member self.SendMetric id (metric : Metric) = ()
+//        let tuple = id, metric
+//        let pickle = pickler.Pickle (tuple)
+//        printfn "getting json server"
+//        let json = JsonConvert.SerializeObject(metric)
+//        printfn "got json server"
+//        let jsonBytes = Encoding.UTF8.GetBytes json
+//        ws.Send jsonBytes //SendAsync vs Send
 
     member self.Initialize id money buyIn = 
         match money > buyIn with

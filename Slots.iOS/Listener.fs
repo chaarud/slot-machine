@@ -9,6 +9,7 @@ open Nessos.FsPickler
 open WebSocketSharp
 open WebSocketSharp.Server
 
+
 type KinesisService () =
     inherit WebSocketBehavior ()
 
@@ -19,8 +20,14 @@ type KinesisService () =
         publisher.createPutRecordRequest (StreamName "Slots") (PartitionKey "partition0") e.RawData
         |> publisher.publish
         |> ignore
-    
+
+type SendJSON () = 
+    inherit WebSocketBehavior ()
+    override self.OnMessage (e: MessageEventArgs) = 
+//        let deserialized = 
+        printfn "receiving data : %A" e.Data//todo: jsonparsing function by looking at anadashboard
+
 let startListening () = 
     let wsServer = new WebSocketServer("ws://localhost:55555")
-    wsServer.AddWebSocketService<KinesisService>("/KinesisService")
+    wsServer.AddWebSocketService<SendJSON>("/KinesisService")
     wsServer.Start ()

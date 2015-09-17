@@ -1,5 +1,4 @@
-﻿module Metric
-    
+﻿module Metric 
 open Account
 
 type OS = OS of string

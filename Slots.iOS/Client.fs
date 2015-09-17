@@ -6,13 +6,15 @@ open Metric
 open UIKit
 
 open System
-
+open System.Text
+open Newtonsoft.Json
 open Nessos.FsPickler
+//open Nessos.FsPickler.Json
 open WebSocketSharp
 
 type Client (server : Server.Server, id : Id) = 
 
-    let pickler = FsPickler.CreateBinarySerializer ()
+    let jsonSerializer = Nessos.FsPickler.Json.JsonSerializer()
 
     let oss = List.map OS ["iOS"; "Android"; "Tizen"]
     let devices = List.map Device ["iPhone 4"; "iPad"; "iPhone 5"]
@@ -35,9 +37,26 @@ type Client (server : Server.Server, id : Id) =
         ws.Connect ()
 
     member self.SendMetric (metric : Metric) = 
-        let info = id, DateTime.UtcNow, metric
-        let pickle = pickler.Pickle<Id*DateTime*Metric> (info)
-        ws.Send pickle //SendAsync vs Send
+        printfn "serializing"
+//        let mutable json = ""
+        let json = jsonSerializer.Pickle(metric)
+        printfn "serialized"
+//        let unixTime() = 
+//            let epoch = DateTime(1970, 1, 1) in (DateTime.Now - epoch).TotalMilliseconds |> int64    
+//        let (Id(id')) = id
+//        match metric with
+//        | GameStarted (OS(os), Device(device), Country(country)) ->
+//            printfn "getting json"
+//            json <- 
+//                sprintf """{"PlayerId": %d, "Time" : %d, "OS": "%s", "Device": "%s", "Country": "%s"}""" 
+//                    id' (unixTime()) os device country
+//            printfn "got json"
+//        | GameEnded ->
+//            json <-
+//                sprintf """{"PlayerId": %d, "Time" : %d,}"""
+//                    id' (unixTime()) 
+//        let jsonBytes = Encoding.UTF8.GetBytes json
+        ws.Send json
 
     member self.Run initialFunds buyIn =
         self.StartGame id initialFunds buyIn
