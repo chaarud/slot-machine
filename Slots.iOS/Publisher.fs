@@ -5,6 +5,7 @@ open System
 open System.Text
 open Newtonsoft.Json
 open WebSocketSharp
+
 let makeJsonList (properties:(string * string) List) = 
     match properties with
     | [] -> ""
@@ -16,20 +17,29 @@ let makeJsonList (properties:(string * string) List) =
             ) ""
         json.Substring(0, json.Length-2)
 
-type Publisher(address, id') = 
+
+let makeJson playerId userProperties eventProperties = 
+    let jsonUserProperties = makeJsonList userProperties
+    let jsonEventProperties = makeJsonList eventProperties
+    sprintf """{"playerId" : %d, "eventProperties": [%s], "userProperties": [%s]}"""
+        playerId jsonEventProperties jsonUserProperties
+
+type Publisher(address) = 
     let ws = new WebSocket(address)
 
-    let makeJson playerId userProperties eventProperties = 
-        let jsonUserProperties = makeJsonList userProperties
-        let jsonEventProperties = makeJsonList eventProperties
-        sprintf """{"playerId" : %d, "eventProperties": [%s], "userProperties": [%s]}"""
-            playerId jsonEventProperties jsonUserProperties
-
+    member self.Send(data:string) = 
+        ws.Send data
 
     member self.Connect() = 
         ws.OnOpen.Add (fun _ -> printfn "Client's WebSocket opened")
         ws.OnClose.Add(fun _ -> printfn "Client's WebSocket closed")
         ws.Connect()
+
+    member self.Close() = 
+        ws.Close()
+ 
+type ClientPublisher(address, id') = 
+    inherit Publisher(address)
 
     member self.SendMetric(metric) = 
         let mutable json = ""
@@ -47,8 +57,11 @@ type Publisher(address, id') =
             let eventProperties = [("Type", "GameEnded"); ("Time", (unixTime()))]
             json <- makeJson id' userProperties eventProperties
         let jsonBytes = Encoding.UTF8.GetBytes json
-        ws.Send json
+        self.Send json
 
-    member self.Close() = 
-        ws.Close()
- 
+type ServerPublisher(address) = 
+    inherit Publisher(address)
+
+    member self.SendMetric(id, metric) = 
+        let mutable json = ""
+        json
