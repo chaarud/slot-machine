@@ -2,14 +2,10 @@
 open Server
 open Listener
 open Account
-open fszmq 
-open Nessos.FsPickler
 
 [<EntryPoint>]
 let main argv = 
-
     let idAssigner = new System.Random ()
-
     Listener.startListening ()
 
     let server = new Server ()
@@ -20,12 +16,9 @@ let main argv =
         let client = new Client (Id id)
         ignore <| client.Run 1000 10 
         } 
-
     for i in 1 .. 3 do
         generator i |> Async.Start
 
     Async.RunSynchronously <| Async.Sleep 5000
-
     System.Console.ReadLine () |> ignore    
-
     0 // return an integer exit code

@@ -2,28 +2,19 @@
 
 open Account
 open Metric
-
 open Nessos.FsPickler
 open WebSocketSharp
-
-open fszmq
-
 open Suave
 open Suave.Web
 open Suave.Http
 open Suave.Types
 open Suave.Http.Successful
-open Suave.Http.Redirection
-open Suave.Http.Files
-open Suave.Http.RequestErrors
 open Suave.Http.Applicatives
 open System
 open System.IO
 
 type Server () = 
-
     let random = new System.Random ()
-
     let pickler = FsPickler.CreateBinarySerializer ()
 
     let listenerWS = new WebSocket("ws://localhost:55555/KinesisService")
@@ -40,13 +31,8 @@ type Server () =
             bindings = [ Types.HttpBinding.mk' Types.HTTP "127.0.0.1" port ] }
 
     member self.Run () =
-        let webPart :WebPart = 
-                choose
-                    [
-                        GET >>= choose 
-                            [ pathScan "/%s" (fun req -> OK (self.Dispatch(req)))]
-                    ]
-        startWebServer serverConfig webPart
+        GET >>= choose [ pathScan "/%s" (fun req -> OK (self.Dispatch(req)))]                    
+        |> startWebServer serverConfig
 
     member self.Dispatch (req : string) = 
         let request = System.Convert.FromBase64String req
