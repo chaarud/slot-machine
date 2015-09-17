@@ -1,18 +1,15 @@
 ﻿namespace SlotMachine
 
-open System
-
 open Client
-open Server
 open Metric
 open Account
-open KinesisProvider
 
-open System.Security
-open System.Text
+open System
 
 open UIKit
 open Foundation
+
+open Nessos.FsPickler
 
 [<Register ("AppDelegate")>]
 type AppDelegate () =
@@ -32,42 +29,28 @@ type AppDelegate () =
 //        printfn "done for now"
 
 //    ================================================
+        
+//        let p = FsPickler.CreateBinarySerializer ()
+//        let x = p.Pickle<Account>(emptyAccount)
+//        printfn "%A" x
+//        let y = p.UnPickle<Account>(x)
+//        printfn "%A" y
 
         let idAssigner = new System.Random ()
-
         Listener.startListening ()
 
-        let server = new Server ()
-        //async {do server.Run ()} |> Async.Start
-        server.Run ()
-        printfn "Server running"
+        let generator i = async {
+            let id = idAssigner.Next (1,1000000)
+            let client = new Client (Id id)
+            ignore <| client.Run 1000 10 
+            } 
+//        for i in 1 .. 3 do
+//            generator i |> Async.Start
 
-//        let generator i = async {
-//            let id = idAssigner.Next (1,1000000)
-//            let client = new Client (Id id)
-//            ignore <| client.Run 1000 10 
-//            }
-//
-//        let parallelClients = 
-//            printfn "spinning up client"
-//            List.init 1 generator
-//            |> Async.Parallel
-//            |> Async.RunSynchronously
-
-//        let client = new Client (Id 6)
-//        printfn "created client"
-//        ignore <| client.Run 1000 10
-
-//        let clientProcess = async {
-//            printfn "client async"
-//            let client = new Client (Id 5)
-//            ignore <| client.Run 1000 10 }
-//        printfn "feeding client async to async.start"
-//        clientProcess |> Async.Start
-//        printfn "done starting client async"
+        generator 1 |> Async.Start
 
         Async.RunSynchronously <| Async.Sleep 5000
-        printfn "process over"
+        System.Console.ReadLine () |> ignore    
 
 //    ================================================
 
