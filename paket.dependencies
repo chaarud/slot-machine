@@ -6,5 +6,4 @@ nuget FSharp.Configuration
 nuget FSharp.Data
 nuget FsPickler-BeyondGames
 nuget Suave
-nuget fszmq-BeyondGames
 nuget websocket-sharp-BeyondGames

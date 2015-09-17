@@ -14,6 +14,4 @@ NUGET
   remote: http://nuget.beyondgames.io/nuget
   specs:
     FsPickler-BeyondGames (3.0.0)
-    fszmq-BeyondGames (3.2.0)
-      FSharp.Core
     websocket-sharp-BeyondGames (1.0.0)
