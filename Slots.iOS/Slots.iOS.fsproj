@@ -52,6 +52,9 @@
     <Reference Include="FsPickler">
       <HintPath>..\packages\FsPickler-BeyondGames\lib\net45\FsPickler.dll</HintPath>
     </Reference>
+    <Reference Include="FsPickler.Json">
+      <HintPath>..\packages\FsPickler-BeyondGames\lib\net45\FsPickler.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -66,6 +69,7 @@
     <Compile Include="Metric.fs" />
     <Compile Include="KinesisProvider.fs" />
     <Compile Include="Listener.fs" />
+    <Compile Include="Publisher.fs" />
     <Compile Include="Server.fs" />
     <Compile Include="Client.fs" />
   </ItemGroup>
