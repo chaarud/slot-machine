@@ -1,18 +1,15 @@
 ﻿namespace SlotMachine
 
-open System
-
 open Client
-open Server
 open Metric
 open Account
-open KinesisProvider
 
-open System.Security
-open System.Text
+open System
 
 open UIKit
 open Foundation
+
+open Nessos.FsPickler
 
 [<Register ("AppDelegate")>]
 type AppDelegate () =
@@ -32,23 +29,21 @@ type AppDelegate () =
 //        printfn "done for now"
 
 //    ================================================
-
+        
         let idAssigner = new System.Random ()
         Listener.startListening ()
-        let server = new Server ()
 
         let generator i = async {
             let id = idAssigner.Next (1,1000000)
-            let client = new Client (server, Id id)
+            let client = new Client (Id id)
             ignore <| client.Run 1000 10 
-            }
+            } 
 
-        let parallelClients = 
-            List.init 1 generator
-            |> Async.Parallel
-            |> Async.RunSynchronously
+        for i in 1 .. 3 do
+            generator i |> Async.Start
 
         Async.RunSynchronously <| Async.Sleep 5000
+        System.Console.ReadLine () |> ignore    
 
 //    ================================================
 

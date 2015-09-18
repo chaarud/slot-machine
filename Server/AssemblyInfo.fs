@@ -1,8 +1,8 @@
-﻿namespace Consumer
+﻿namespace Server
 open System.Reflection
 open System.Runtime.CompilerServices
 
-[<assembly: AssemblyTitle("Consumer")>]
+[<assembly: AssemblyTitle("Server")>]
 [<assembly: AssemblyDescription("")>]
 [<assembly: AssemblyConfiguration("")>]
 [<assembly: AssemblyCompany("")>]

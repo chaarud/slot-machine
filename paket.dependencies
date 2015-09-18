@@ -2,7 +2,7 @@ source https://nuget.org/api/v2
 source http://nuget.beyondgames.io/nuget
 
 nuget FAKE
-nuget FSharp.Configuration
 nuget FSharp.Data
-nuget FsPickler-BeyondGames
+nuget FsPickler
+nuget Suave
 nuget websocket-sharp-BeyondGames

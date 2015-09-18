@@ -1,18 +1,15 @@
 NUGET
   remote: https://nuget.org/api/v2
   specs:
-    AWSSDK (2.3.50.1)
-      Microsoft.Net.Http (>= 2.1.10) - framework: wpv8.0
-    AWSSDK.Core (3.1.1)
-      Microsoft.Net.Http (>= 2.2.29) - framework: portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10
-      PCLCrypto (>= 1.0.2.15130) - framework: portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10
-      PCLStorage (>= 1.0.2) - framework: portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10
-    FAKE (4.3.1)
-    FSharp.Configuration (0.5.3)
+    FAKE (4.4.2)
+    FSharp.Core (4.0.0.1)
     FSharp.Data (2.2.5)
       Zlib.Portable (>= 1.10.0) - framework: portable-net40+sl50+wp80+win80
+    FsPickler (1.2.5)
+    Suave (0.31.2)
+      FSharp.Core (>= 3.1.2.5)
+      FsPickler (>= 1.2.5)
     Zlib.Portable (1.11.0) - framework: portable-net40+sl50+wp80+win80
   remote: http://nuget.beyondgames.io/nuget
   specs:
-    FsPickler-BeyondGames (3.0.0)
     websocket-sharp-BeyondGames (1.0.0)

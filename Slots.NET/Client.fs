@@ -21,9 +21,9 @@ type Client (id : Id) =
 //    let device = Device UIDevice.CurrentDevice.Model
 //    let country = Country (Foundation.NSLocale.CurrentLocale.GetCountryCodeDisplayName(Foundation.NSLocale.CurrentLocale.CountryCode))
 
-    let os = List.item (rnd.Next(oss.Length)) oss
-    let device = List.item (rnd.Next(oss.Length)) devices
-    let country = List.item (rnd.Next(oss.Length)) countries
+    let os = List.nth oss (rnd.Next(oss.Length))
+    let device = List.nth devices (rnd.Next(oss.Length))
+    let country = List.nth countries (rnd.Next(oss.Length))
 
     let listenerWS = new WebSocket("ws://localhost:55555/KinesisService")
     do 
@@ -41,7 +41,6 @@ type Client (id : Id) =
         account
 
     member self.Dispatch (req : string) = 
-        printfn "client about to dispatch %A" req
         let url = "http://localhost:5678/" + req
         Http.RequestString (url)
 
