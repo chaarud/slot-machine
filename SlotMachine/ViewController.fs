@@ -7,8 +7,11 @@ open Foundation
 open UIKit
 
 [<Register ("ViewController")>]
-type ViewController () =
-    inherit UIViewController ()
+type ViewController =
+    inherit UIViewController
+
+    new () = { inherit UIViewController () }
+    new (p:IntPtr) = { inherit UIViewController (p) }
 
     override x.DidReceiveMemoryWarning () =
         // Releases the view if it doesn't have a superview.
