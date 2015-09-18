@@ -30,12 +30,6 @@ type AppDelegate () =
 
 //    ================================================
         
-//        let p = FsPickler.CreateBinarySerializer ()
-//        let x = p.Pickle<Account>(emptyAccount)
-//        printfn "%A" x
-//        let y = p.UnPickle<Account>(x)
-//        printfn "%A" y
-
         let idAssigner = new System.Random ()
         Listener.startListening ()
 
@@ -44,10 +38,9 @@ type AppDelegate () =
             let client = new Client (Id id)
             ignore <| client.Run 1000 10 
             } 
-//        for i in 1 .. 3 do
-//            generator i |> Async.Start
 
-        generator 1 |> Async.Start
+        for i in 1 .. 3 do
+            generator i |> Async.Start
 
         Async.RunSynchronously <| Async.Sleep 5000
         System.Console.ReadLine () |> ignore    
