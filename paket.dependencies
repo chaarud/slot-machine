@@ -3,4 +3,5 @@ source http://nuget.beyondgames.io/nuget
 nuget FSharp.Data
 nuget FsPickler
 nuget FsPickler-BeyondGames
+nuget Suave
 nuget websocket-sharp-BeyondGames

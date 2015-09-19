@@ -15,7 +15,7 @@ open System.IO
 
 type Server () = 
     let random = new System.Random ()
-    let pickler = FsPickler.CreateBinary ()
+    let pickler = Nessos.FsPickler.BinarySerializer ()
 
 //    let listenerWS = new WebSocket("ws://localhost:55555/KinesisService")
 //    do 
