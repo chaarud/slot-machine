@@ -1,13 +1,13 @@
-﻿namespace game
+﻿namespace Client.iOS
 open System.Reflection
 open System.Runtime.CompilerServices
 
-[<assembly: AssemblyTitle("game")>]
+[<assembly: AssemblyTitle("Client.iOS")>]
 [<assembly: AssemblyDescription("")>]
 [<assembly: AssemblyConfiguration("")>]
 [<assembly: AssemblyCompany("")>]
 [<assembly: AssemblyProduct("")>]
-[<assembly: AssemblyCopyright("chaaru")>]
+[<assembly: AssemblyCopyright("Neil")>]
 [<assembly: AssemblyTrademark("")>]
 
 // The assembly version has the format {Major}.{Minor}.{Build}.{Revision}
