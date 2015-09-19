@@ -7,8 +7,9 @@ type Device = Device of string
 
 type Country = Country of string
 
-type Metric = 
+type ClientMetric = 
     | GameStarted of OS*Device*Country
     | GameEnded
-    | BuyMoneyMetric of Transaction*Account
-    | PullLeverMetric of Transaction*Account
+
+type ServerMetric = 
+    | TransactionMetric of Transaction*Account

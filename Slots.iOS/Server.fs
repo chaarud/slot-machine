@@ -23,15 +23,15 @@ type Server () =
             printfn "Your account does not have enough money to start a new session"
             emptyAccount
 
-    member self.Transaction account (id, transaction) =
+    member self.Transaction account (Id(id), transaction) =
         match transaction with
         | PullLever -> 
             let newAcct = self.DoPullLever account
-            //publisher.SendMetric id (PullLeverMetric (transaction, newAcct))
+            publisher.SendMetric(id, (TransactionMetric (transaction, newAcct)))
             newAcct
         | BuyMoney -> 
             let newAcct = self.DoBuyMoney account
-            //publisher.SendMetric id (BuyMoneyMetric (transaction, newAcct))
+            publisher.SendMetric(id, (TransactionMetric (transaction, newAcct)))
             newAcct
         | EndGame ->
             printfn "Server reports that a client %A ended a game" id
