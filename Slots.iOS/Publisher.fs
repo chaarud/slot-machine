@@ -5,6 +5,7 @@ open System
 open System.Text
 open Newtonsoft.Json
 open WebSocketSharp
+open Account
 
 let makeJsonList (properties:(string * string) List) = 
     match properties with
@@ -21,7 +22,7 @@ let makeJsonList (properties:(string * string) List) =
 let makeJson playerId userProperties eventProperties = 
     let jsonUserProperties = makeJsonList userProperties
     let jsonEventProperties = makeJsonList eventProperties
-    sprintf """{"playerId" : %d, "eventProperties": [%s], "userProperties": [%s]}"""
+    sprintf """{"playerId" : %d, "eventProperties": {%s}, "userProperties": {%s}}"""
         playerId jsonEventProperties jsonUserProperties
 
 type Publisher(address) = 
@@ -56,7 +57,7 @@ type ClientPublisher(address, id') =
             let userProperties = []
             let eventProperties = [("Type", "GameEnded"); ("Time", (publisher.unixTime()))]
             json <- makeJson id' userProperties eventProperties
-        | _ -> printfn "client can't do this"; ()
+
         let jsonBytes = Encoding.UTF8.GetBytes json
         publisher.Send json
 
@@ -67,10 +68,35 @@ type ServerPublisher(address) =
     let publisher = Publisher(address)
     do publisher.Connect()
 
-    member self.SendMetric(id, metric) = 
+    member self.SendMetric(id, metric:ServerMetric) = 
         let mutable json = ""
-        match metric with
-        | PullLeverMetric(transaction, account) -> ()
-        | BuyMoneyMetric(transaction, account) -> ()
-        | _ -> printfn "server can't do this"; ()
-        json
+        let mutable eventProperties = []
+        let (TransactionMetric(transaction, account)) = metric
+        let (Id accountId) = account.id
+
+        let buyIn = 
+            match account.buyIn with
+            | None -> 0
+            | Some buy -> buy
+
+        let money = 
+            match account.money with
+            | None -> 0
+            | Some mons -> mons
+
+        match transaction with
+        | PullLever -> 
+            eventProperties <- [("Type", "PullLever"); ("Time", (publisher.unixTime()))]
+        | BuyMoney -> 
+            eventProperties <- [("Type", "BuyMoney"); ("Time", (publisher.unixTime()))]
+        | EndGame -> 
+            eventProperties <- [("Type", "BuyMoney"); ("Time", (publisher.unixTime()))]
+        let userAccProperties = [("AccountId", string <| accountId) 
+                                 ("Money", string <| money)
+                                 ("BuyIn", string <| buyIn)]
+        let json = makeJson id userAccProperties eventProperties
+        let jsonBytes = Encoding.UTF8.GetBytes json
+        publisher.Send json
+    
+    member self.Connect () = publisher.Connect()
+    member self.Close() = publisher.Close()
