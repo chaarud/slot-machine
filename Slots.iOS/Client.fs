@@ -18,14 +18,15 @@ type Client (id : Id) =
     let address = "ws://localhost:55555/KinesisService"
     let rnd = new System.Random()
     let (Id id') = id
+    let pickler = FsPickler.CreateBinarySerializer()
     let publisher = new ClientPublisher(address, id')
 //    let os = OS (UIDevice.CurrentDevice.SystemName + " " + UIDevice.CurrentDevice.SystemVersion)
 //    let device = Device UIDevice.CurrentDevice.Model
 //    let country = Country (Foundation.NSLocale.CurrentLocale.GetCountryCodeDisplayName(Foundation.NSLocale.CurrentLocale.CountryCode))
 
-    let os = List.item (rnd.Next(oss.Length)) oss
-    let device = List.item (rnd.Next(oss.Length)) devices
-    let country = List.item (rnd.Next(oss.Length)) countries
+    let os = List.nth oss (rnd.Next(oss.Length)) 
+    let device = List.nth devices (rnd.Next(oss.Length)) 
+    let country = List.nth countries (rnd.Next(oss.Length)) 
 
 //     
 //    let listenerWS = new WebSocket("ws://localhost:55555/KinesisService")
