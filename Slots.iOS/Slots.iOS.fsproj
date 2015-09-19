@@ -46,14 +46,8 @@
     <Reference Include="FSharp.Data">
       <HintPath>..\packages\FSharp.Data\lib\net40\FSharp.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="FsPickler">
-      <HintPath>..\packages\FsPickler-BeyondGames\lib\net45\FsPickler.dll</HintPath>
-    </Reference>
-    <Reference Include="FsPickler.Json">
-      <HintPath>..\packages\FsPickler-BeyondGames\lib\net45\FsPickler.Json.dll</HintPath>
+      <HintPath>..\packages\FsPickler-BeyondGames\lib\xamarinios10\FsPickler.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -69,60 +63,12 @@
     <Compile Include="Metric.fs" />
     <Compile Include="KinesisProvider.fs" />
     <Compile Include="Listener.fs" />
-    <Compile Include="Publisher.fs" />
-    <Compile Include="Server.fs" />
     <Compile Include="Client.fs" />
   </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6')">
       <ItemGroup>
-        <Reference Include="FSharp.Configuration">
-          <HintPath>..\packages\FSharp.Configuration\lib\net40\FSharp.Configuration.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-        <Reference Include="SharpYaml">
-          <HintPath>..\packages\FSharp.Configuration\lib\net40\SharpYaml.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6')">
-      <ItemGroup>
         <Reference Include="System.Xml.Linq">
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6')">
-      <ItemGroup>
-        <Reference Include="FsPickler.Json">
-          <HintPath>..\packages\FsPickler-BeyondGames\lib\net45\FsPickler.Json.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-        <Reference Include="FsPickler">
-          <HintPath>..\packages\FsPickler-BeyondGames\lib\net45\FsPickler.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <When Condition="$(TargetFrameworkIdentifier) == 'Xamarin.iOS'">
-      <ItemGroup>
-        <Reference Include="FsPickler.Json">
-          <HintPath>..\packages\FsPickler-BeyondGames\lib\xamarinios10\FsPickler.Json.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-        <Reference Include="FsPickler">
-          <HintPath>..\packages\FsPickler-BeyondGames\lib\xamarinios10\FsPickler.dll</HintPath>
-          <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
       </ItemGroup>
