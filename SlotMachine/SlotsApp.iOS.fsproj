@@ -73,12 +73,6 @@
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core" />
     <Reference Include="Xamarin.iOS" />
-    <Reference Include="FsPickler">
-      <HintPath>..\packages\FsPickler-BeyondGames\lib\xamarinios10\FsPickler.dll</HintPath>
-    </Reference>
-    <Reference Include="Zlib">
-      <HintPath>..\packages\Zlib.Portable\lib\portable-net4+sl5+wp8+win8+wpa81+MonoTouch+MonoAndroid\Zlib.Portable.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
@@ -101,5 +95,11 @@
     <BundleResource Include="cfg.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Client.iOS\Client.iOS.fsproj">
+      <Project>{0C1EF0B3-907E-4806-9AA4-2F9FB8615D77}</Project>
+      <Name>Client.iOS</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
