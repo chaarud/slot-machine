@@ -1,7 +1,7 @@
 ﻿module KinesisProvider
 //
 //open Account
-//open Metric
+//open ClientMetric
 //open Nessos.FsPickler
 //open FSharp.Data
 //

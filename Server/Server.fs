@@ -12,16 +12,12 @@ open Suave.Http.Successful
 open Suave.Http.Applicatives
 open System
 open System.IO
+open System.Text
+open Publisher
 
 type Server () = 
     let random = new System.Random ()
     let pickler = Nessos.FsPickler.BinarySerializer ()
-
-//    let listenerWS = new WebSocket("ws://localhost:55555/KinesisService")
-//    do 
-//        listenerWS.OnOpen.Add (fun _ -> printfn "Slot Server's WebSocket opened")
-//        listenerWS.OnClose.Add (fun _ -> printfn "Slot Server's WebSocket closed")
-//        listenerWS.Connect ()
 
     let serverConfig =
         let port = 5678
@@ -29,6 +25,9 @@ type Server () =
             homeFolder = Some __SOURCE_DIRECTORY__
             logger = Logging.Loggers.saneDefaultsFor Logging.LogLevel.Warn
             bindings = [ Types.HttpBinding.mk' Types.HTTP "127.0.0.1" port ] }
+
+    let address = "ws://localhost:55555/KinesisService"
+    let publisher = new ServerPublisher(address)
 
     member self.Run () =
         GET >>= choose [ pathScan "/%s" (fun req -> OK (self.Dispatch(req)))]                    
@@ -43,11 +42,6 @@ type Server () =
         let pickle = pickler.Pickle<Account> newAcct
         System.Convert.ToBase64String pickle
 
-//    member self.SendMetric id (metric : Metric) = 
-//        let tuple = id, metric
-//        let pickle = pickler.Pickle (tuple)
-//        listenerWS.Send pickle //SendAsync vs Send
-
     member self.DoInitialize id account = 
         let m = money account
         let b = buyIn account
@@ -60,18 +54,18 @@ type Server () =
                 emptyAccount
         | _ -> emptyAccount
 
-    member self.Transaction account (id, transaction) =
+    member self.Transaction account (Id id, transaction) =
         match transaction with
         | Initialize ->
-            let newAcct = self.DoInitialize id account
+            let newAcct = self.DoInitialize (Id id) account
             newAcct
         | PullLever -> 
             let newAcct = self.DoPullLever account
-            //self.SendMetric id (PullLeverMetric (transaction, newAcct))
+            publisher.SendMetric(id, (TransactionMetric (transaction, newAcct)))
             newAcct
         | BuyMoney -> 
             let newAcct = self.DoBuyMoney account
-            //self.SendMetric id (BuyMoneyMetric (transaction, newAcct))
+            publisher.SendMetric(id, (TransactionMetric (transaction, newAcct)))
             newAcct
         | EndGame ->
             printfn "Server reports that a client %A ended a game" id
