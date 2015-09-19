@@ -73,12 +73,6 @@
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core" />
     <Reference Include="Xamarin.iOS" />
-    <Reference Include="Zlib.Portable">
-      <HintPath>..\packages\Zlib.Portable\lib\portable-net4+sl5+wp8+win8+wpa81+MonoTouch+MonoAndroid\Zlib.Portable.dll</HintPath>
-    </Reference>
-    <Reference Include="FsPickler">
-      <HintPath>..\packages\FsPickler-BeyondGames\lib\xamarinios10\FsPickler.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
@@ -98,14 +92,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.FSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Slots.iOS\Slots.iOS.fsproj">
-      <Project>{574E9D43-7965-4832-9F0D-F971F54DB492}</Project>
-      <Name>Slots.iOS</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="cfg.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </BundleResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Client.iOS\Client.iOS.fsproj">
+      <Project>{0C1EF0B3-907E-4806-9AA4-2F9FB8615D77}</Project>
+      <Name>Client.iOS</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

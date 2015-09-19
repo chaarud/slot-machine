@@ -9,8 +9,6 @@ open System
 open UIKit
 open Foundation
 
-open Nessos.FsPickler
-
 [<Register ("AppDelegate")>]
 type AppDelegate () =
     inherit UIApplicationDelegate ()
