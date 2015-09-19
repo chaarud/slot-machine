@@ -3,7 +3,8 @@ source http://nuget.beyondgames.io/nuget
 
 nuget FAKE
 nuget FSharp.Data
-nuget Newtonsoft.Json
 nuget FsPickler
+nuget FsPickler-BeyondGames
+nuget Newtonsoft.Json
 nuget Suave
 nuget websocket-sharp-BeyondGames
